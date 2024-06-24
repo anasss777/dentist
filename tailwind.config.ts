@@ -22,6 +22,8 @@ const config: Config = {
       },
       boxShadow: {
         Card: "0px 0px 15px 5px rgba(0, 0, 0, 0.1);",
+        Primary: "0px 0px 15px 2px rgba(0, 111, 238, 0.5);",
+        Secondary: "0px 0px 15px 2px rgba(56, 189, 248, 0.5);",
       },
     },
   },

@@ -14,7 +14,7 @@ const Hero = () => {
         alt="Hero section image"
         width={500}
         height={500}
-        className={`object-scale-down h-64 lg:h-96 w-fit rounded-full shadow-Card border border-secondary`}
+        className={`object-scale-down h-64 lg:h-96 w-fit rounded-full shadow-Secondary`}
       />
 
       <div
@@ -30,7 +30,7 @@ const Hero = () => {
         </div>
 
         <p
-          className={`btn bg-primary shadow-lg text-normal md:text-xl hover:px-6`}
+          className={`btn bg-primary shadow-Primary text-normal md:text-xl hover:px-6`}
         >
           {t("bookAppointment")}
         </p>

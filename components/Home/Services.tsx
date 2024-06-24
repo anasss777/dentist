@@ -30,7 +30,7 @@ const Services = () => {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center gap-20 py-20 lg:py-32 px-5 md:px-10 lg:px-20 xl:px-40`}
+      className={`flex flex-col justify-center items-center gap-20 py-20 lg:pb-20 lg:pt-32 px-5 md:px-10 lg:px-20 xl:px-40`}
     >
       {/* Heading */}
       <div

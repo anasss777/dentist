@@ -64,7 +64,7 @@ const NavbarElements = () => {
       >
         <ul
           onClick={() => setMenuOpen(false)}
-          className={`block lg:flex flex-row justify-between border rounded-lg border-primary bg-gray-100 dark:bg-[#291929]
+          className={`block lg:flex flex-row justify-between border rounded-lg border-primary bg-gray-100 dark:bg-gray-800
             lg:bg-transparent lg:w-[65vw] lg:border-none lg:dark:bg-transparent`}
         >
           <div
