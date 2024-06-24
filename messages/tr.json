@@ -1,0 +1,16 @@
+{
+    "head": {
+      "title": "Hello world!",
+      "description": "Hello world!"
+    },
+    "nav": {
+    "about": "About",
+    "nav1": "Nav1",
+    "nav2": "Nav2",
+    "nav3": "Nav3",
+    "contact": "Contact"
+    },
+  "profile": {
+    "signOut": "Sign Out"
+  }
+}

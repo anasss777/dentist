@@ -1,0 +1,65 @@
+{
+    "head": {
+      "title": "Hello world!",
+      "description": "Hello world!"
+    },
+    "nav": {
+      "about": "About",
+      "nav1": "Nav1",
+      "nav2": "Nav2",
+      "nav3": "Nav3",
+      "contact": "Contact",
+      "profile": "My Account",
+      "changePassword": "Change Password",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "signOut": "Sign Out"
+    },
+    "footer": {
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "address": "Location",
+      "theAddress": "Street, City, Country",
+      "developedBy": "Designed and Developed by"
+    },
+    "accountHeader": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "profile": "My Account",
+      "changePassword": "Change Password",
+      "signOut": "Sign Out"
+    },
+    "signUp": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "country": "Country",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "signUp": "Sign Up",
+      "signIn": "Sign In",
+      "notRegistered": "Create a New Account",
+      "signUpWithGoogle": "Sign Up with Google",
+      "signInWithGoogle": "Sign In with Google",
+      "alreadyMember": "Already have an account? ",
+      "signin": "Sign In",
+      "notMember": "Don't have an account? ",
+      "signup": "Sign Up",
+      "firstNameError": "First name is required",
+      "lastNameError": "Last name is required",
+      "emailError": "Please enter a valid email address",
+      "phoneNumberError": "Please enter a valid phone number",
+      "genderError": "Gender is required",
+      "countryError": "Country is required",
+      "passwordError": "Password must be at least 8 characters long",
+      "passwordError2": "Incorrect password or email",
+      "confirmPasswordError": "Please ensure the passwords match"
+    },
+    "profile": {
+      "signOut": "Sign Out"
+    }
+  }
