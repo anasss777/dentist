@@ -9,12 +9,6 @@ const Testimonial = () => {
     "https://www.instagram.com/reel/CqiLhGaqha7/",
     "https://www.instagram.com/reel/Cp-eMyzK5mM/",
     "https://www.instagram.com/reel/CoKxRQuKjA9/?utm_source=ig_web_copy_link",
-    "https://www.instagram.com/reel/CqiLhGaqha7/",
-    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
-    "https://www.instagram.com/reel/CoKxRQuKjA9/?utm_source=ig_web_copy_link",
-    "https://www.instagram.com/reel/CqiLhGaqha7/",
-    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
-    "https://www.instagram.com/reel/CoKxRQuKjA9/?utm_source=ig_web_copy_link",
   ];
 
   return (
