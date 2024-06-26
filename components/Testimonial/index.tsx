@@ -29,7 +29,7 @@ const Testimonial = () => {
       </div>
       {/* Testimonial List */}
       <div
-        className={`flex flex-row gap-10 justify-center items-center w-[90%] overflow-x-auto`}
+        className={`flex flex-row gap-10 w-[90%] overflow-x-scroll scroll-smooth`}
       >
         {reelsLink.map((reel, index) => (
           <InstagramReel key={index} url={reel} />
