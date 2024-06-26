@@ -42,7 +42,7 @@ const AboutPage = () => {
 
       {/* Call to Action */}
       <div
-        className={`flex flex-col justify-center items-center gap-10 py-10 px-5 bg-third dark:bg-third/5 border w-full md:w-[70%]
+        className={`flex flex-col justify-center items-center gap-10 py-10 px-5 bg-third dark:bg-third/5 border w-[90%] md:w-[70%]
           rounded-3xl shadow-Card2`}
       >
         <p className={`text-gray-400 text-normal md:text-lg font-light px-5`}>
