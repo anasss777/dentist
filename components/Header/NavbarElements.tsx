@@ -81,7 +81,7 @@ const NavbarElements = () => {
             <Menu text={t("about")} href="/about" />
             <Menu text={t("nav1")} href="/nav1" />
             <Menu text={t("nav2")} href="/nav2" />
-            <Menu text={t("nav3")} href="/nav3" />
+            {/* <Menu text={t("nav3")} href="/nav3" /> */}
             <Menu text={t("contact")} href="/contact" />
 
             <div

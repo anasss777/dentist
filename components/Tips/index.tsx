@@ -8,7 +8,13 @@ const Tips = () => {
   const reelsLink = [
     "https://www.instagram.com/reel/CqiLhGaqha7/",
     "https://www.instagram.com/reel/Cp-eMyzK5mM/",
-    "https://www.instagram.com/reel/CoKxRQuKjA9/?utm_source=ig_web_copy_link",
+    "https://www.instagram.com/reel/CoKxRQuKjA9",
+    "https://www.instagram.com/reel/CqiLhGaqha7/",
+    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
+    "https://www.instagram.com/reel/CoKxRQuKjA9",
+    "https://www.instagram.com/reel/CqiLhGaqha7/",
+    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
+    "https://www.instagram.com/reel/CoKxRQuKjA9",
   ];
 
   return (
@@ -29,12 +35,9 @@ const Tips = () => {
       </div>
 
       {/* Tips List */}
-      <div className={``}>
+      <div className={`flex flex-row w-full overflow-x-scroll scroll-smooth`}>
         {reelsLink.map((reel, index) => (
-          <InstagramReel
-            key={index}
-            url="https://www.instagram.com/reel/Cp-eMyzK5mM/"
-          />
+          <InstagramReel key={index} url={reel} />
         ))}
       </div>
     </div>

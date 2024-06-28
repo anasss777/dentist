@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <div
-      className={`flex flex-col gap-6 bg-primary pt-4 px-3 mt-10 relative bottom-0 ${
+      className={`flex flex-col gap-6 bg-primary/90 pt-4 px-3 mt-10 relative bottom-0 ${
         isArabic ? "rtl" : "ltr"
       }`}
     >

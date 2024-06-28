@@ -33,9 +33,7 @@ const Header = () => {
   return (
     <div
       className={`sticky top-0 transition-all z-40 flex flex-row justify-between items-center w-full h-fit py-3 lg:py-0 px-2 md:px-10
-      lg:px-20 bg-primary dark:bg-primary ${
-        scrolling ? "bg-primary/90" : "bg-primary"
-      }`}
+      lg:px-20 bg-primary ${scrolling ? "bg-primary/90" : "bg-primary"}`}
     >
       <div className={`flex flex-row gap-5 justify-center items-center`}>
         <Link

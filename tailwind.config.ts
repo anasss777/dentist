@@ -11,8 +11,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#006fee",
-        secondary: "#38bdf8",
+        // primary: "#006fee",
+        // secondary: "#38bdf8",
+        primary: "#4998f2",
+        secondary: "#70cff9",
         third: "#f4f7fa",
       },
       fontFamily: {

@@ -39,3 +39,22 @@
 .invisible-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* FAQ Section */
+
+.faq .faq-btn::after {
+    content: "+";
+    @apply text-lg font-semibold text-white;
+}
+
+.faq.active .faq-btn::after {
+    content: "-";
+}
+
+.faq .faq-content {
+    @apply max-h-0 py-0 opacity-0 transition-all duration-300 ease-linear;
+}
+
+.faq.active .faq-content {
+    @apply max-h-fit py-[30px] opacity-100;
+}

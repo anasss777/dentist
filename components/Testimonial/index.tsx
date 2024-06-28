@@ -61,8 +61,7 @@ const Testimonial = () => {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center gap-20 py-20 lg:py-32 sm:px-10 lg:px-20 xl:px-40 bg-third
-        dark:bg-third/5 border-y dark:border-none`}
+      className={`flex flex-col justify-center items-center gap-20 py-20 lg:py-32 sm:px-10 lg:px-20 xl:px-40`}
     >
       {/* Heading */}
       <div
