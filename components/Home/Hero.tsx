@@ -1,9 +1,14 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
+import { createSharedPathnamesNavigation } from "next-intl/navigation";
+
+const locales = ["ar", "en"];
+const { Link } = createSharedPathnamesNavigation({ locales });
 
 const Hero = () => {
   const t = useTranslations("hero");
+  const locale = useLocale();
 
   return (
     <div
@@ -29,11 +34,13 @@ const Hero = () => {
           </p>
         </div>
 
-        <p
+        <Link
+          href="/appointments"
+          locale={locale}
           className={`btn bg-primary shadow-Primary text-normal md:text-xl hover:px-6`}
         >
           {t("bookAppointment")}
-        </p>
+        </Link>
       </div>
     </div>
   );

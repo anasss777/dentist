@@ -2,11 +2,16 @@ import BreadCrumb from "@/components/Common/BreadCrumb";
 import Contact from "@/components/Home/Contact";
 import Bio from "@/components/about/Bio";
 import Values from "@/components/about/Values";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
+import { createSharedPathnamesNavigation } from "next-intl/navigation";
+
+const locales = ["ar", "en"];
+const { Link } = createSharedPathnamesNavigation({ locales });
 
 const AboutPage = () => {
   const t = useTranslations("about");
+  const locale = useLocale();
 
   return (
     <div
@@ -53,11 +58,13 @@ const AboutPage = () => {
           {t("bookAppointmentMessage")}
         </p>
 
-        <p
+        <Link
+          href="/appointments"
+          locale={locale}
           className={`btn bg-primary shadow-Primary text-normal md:text-xl hover:px-6`}
         >
           {t("bookAppointment")}
-        </p>
+        </Link>
       </div>
 
       {/* Contact */}
