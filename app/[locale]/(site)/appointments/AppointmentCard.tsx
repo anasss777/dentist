@@ -23,7 +23,7 @@ const AppointmentCard = ({
       className={`p-[1.5px] h-fit w-fit rounded-3xl bg-gradient-to-tl from-primary via-transparent to-secondary`}
     >
       <div
-        className={`flex flex-col justify-start items-start gap-3 p-6 bg-white dark:bg-gray-800 rounded-3xl shadow-Card2`}
+        className={`flex flex-col justify-start items-start gap-3 p-6 w-64 bg-white dark:bg-gray-800 rounded-3xl shadow-Card2`}
       >
         <p>
           <span className={`text-primary font-bold`}>{t("date")}: </span>

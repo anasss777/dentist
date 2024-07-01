@@ -1,4 +1,7 @@
+// "use server";
+
 import { DateValue } from "@nextui-org/react";
+import nodemailer from "nodemailer";
 
 export const getDaysUntilAppointment = (
   appointmentDay: string,
@@ -33,3 +36,36 @@ export const getDayOfWeek = (selectedDate: DateValue, locale: string) => {
     .toDate("gmt")
     .toLocaleDateString(localeString, { weekday: "long" });
 };
+
+// export async function sendEmail(
+//   to: string,
+//   subject: string,
+//   text: string
+// ): Promise<void> {
+//   // Create a transporter object using SMTP transport
+//   let transporter = nodemailer.createTransport({
+//     host: "smtp.office365.com", // Replace with your SMTP server address
+//     port: 587, // Replace with your SMTP server port
+//     secure: false, // true for 465, false for other ports
+//     auth: {
+//       user: "email@example.com", // Replace with your SMTP server email
+//       pass: "password", // Replace with your SMTP server password
+//     },
+//   });
+
+//   // Set up email data
+//   let mailOptions = {
+//     from: '"user name" <email@example.com>', // Sender address
+//     to: to, // List of receivers
+//     subject: subject, // Subject line
+//     text: text, // Plain text body
+//   };
+
+//   // Send email
+//   try {
+//     let info = await transporter.sendMail(mailOptions);
+//     console.log("Message sent: %s", info.messageId);
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//   }
+// }

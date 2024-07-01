@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Calendar } from "@nextui-org/react";
+import { Calendar, Select, SelectItem } from "@nextui-org/react";
 import type { DateValue } from "@react-types/calendar";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import { timeSlots } from "./timeSlot";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Booking } from "@/types/booking";
 
 type Props = {
@@ -14,12 +14,31 @@ type Props = {
 
 const AppointmentCalendar = ({ OnBookedDateChange }: Props) => {
   const t = useTranslations("appointments");
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const [selectedDate, setSelectedDate] = useState<DateValue>(
     today(getLocalTimeZone())
   );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("");
   const [visitReason, setVisitReason] = useState("");
   const [bookedDate, setBookedDate] = useState<Booking[]>([]);
+
+  const reasonData = [
+    "فحص وتنظيف روتيني",
+    "ألم أو انزعاج في الأسنان",
+    "أمراض اللثة أو نزيف اللثة",
+    "تسوس الأسنان",
+    "حساسية الأسنان",
+    "رائحة الفم الكريهة (رائحة الفم)",
+    "إصابة الأسنان",
+    "تحسينات تجميلية (مثل التبييض، الفينير)",
+    "مشاكل تقويم الأسنان (مثل التقويم، المشدات)",
+    "ألم الفك أو مشاكل المفصل الفكي الصدغي",
+    "زراعة الأسنان أو أطقم الأسنان",
+    "فحص سرطان الفم",
+    "مشاكل جفاف الفم",
+    "الحفاظ على صحة الفم العامة",
+  ];
 
   const handleConfirmBooking: any = () => {
     const newBooking = {
@@ -41,7 +60,7 @@ const AppointmentCalendar = ({ OnBookedDateChange }: Props) => {
 
   return (
     <div
-      className={`h-full w-full flex flex-col gap-5 justify-center items-center py-10`}
+      className={`h-full w-full flex flex-col gap-5 justify-center items-center py-10 px-5 md:px-10 lg:px-20 xl:px-40`}
     >
       {/* Date Calendar */}
       <Calendar
@@ -90,18 +109,23 @@ const AppointmentCalendar = ({ OnBookedDateChange }: Props) => {
       <p className={`pt-7 text-primary text-xl md:text-3xl font-light`}>
         {t("visitReason")}
       </p>
-      <textarea
-        aria-label="visitReason"
+      <Select
+        label={t("visitReason")}
+        dir={isArabic ? "rtl" : "ltr"}
         value={visitReason}
-        placeholder={t("visitReason") + "..."}
+        className="max-w-xs"
         onChange={(e) => setVisitReason(e.target.value)}
-        className={`border border-primary/70 px-2 py-1 rounded-md w-full md:w-[70%] lg:w-[50%] h-40 resize-none focus:outline-none focus:outline-primary focus:border-none placeholder:text-[#ccc]`}
-      />
+      >
+        {reasonData.map((data) => (
+          <SelectItem key={data}>{data}</SelectItem>
+        ))}
+      </Select>
 
       <button
-        className={`btn bg-primary mt-4 hover:px-6 ${
-          (selectedTimeSlot.length === 0 || visitReason.length === 0) &&
-          "bg-primary/30 hover:px-4 hover:bg-primary/30 cursor-not-allowed"
+        className={`btn bg-primary mt-4 ${
+          selectedTimeSlot.length === 0 || visitReason.length === 0
+            ? "bg-primary/30 hover:bg-primary/30 cursor-not-allowed"
+            : "hover:px-6"
         }`}
         disabled={selectedTimeSlot.length === 0 || visitReason.length === 0}
         onClick={handleConfirmBooking}

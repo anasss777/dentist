@@ -58,3 +58,21 @@
 .faq.active .faq-content {
     @apply max-h-fit py-[30px] opacity-100;
 }
+
+@keyframes reverse-spin {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+.animate-reverse-spin {
+    animation: reverse-spin 5s linear infinite;
+}
+
+@keyframes slow-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.animate-slow-spin {
+    animation: slow-spin 5s linear infinite;
+}

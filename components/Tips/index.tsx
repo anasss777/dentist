@@ -1,17 +1,16 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 import InstagramReel from "../Common/InstagramReel";
+import { createSharedPathnamesNavigation } from "next-intl/navigation";
+
+const locales = ["ar", "en"];
+const { Link } = createSharedPathnamesNavigation({ locales });
 
 const Tips = () => {
   const t = useTranslations("tips");
+  const locale = useLocale();
 
   const reelsLink = [
-    "https://www.instagram.com/reel/CqiLhGaqha7/",
-    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
-    "https://www.instagram.com/reel/CoKxRQuKjA9",
-    "https://www.instagram.com/reel/CqiLhGaqha7/",
-    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
-    "https://www.instagram.com/reel/CoKxRQuKjA9",
     "https://www.instagram.com/reel/CqiLhGaqha7/",
     "https://www.instagram.com/reel/Cp-eMyzK5mM/",
     "https://www.instagram.com/reel/CoKxRQuKjA9",
@@ -40,6 +39,14 @@ const Tips = () => {
           <InstagramReel key={index} url={reel} />
         ))}
       </div>
+
+      <Link
+        href="/tips"
+        locale={locale}
+        className={`btn bg-primary text-normal md:text-lg hover:px-6 -mt-16`}
+      >
+        {t("seeMore")}
+      </Link>
     </div>
   );
 };
