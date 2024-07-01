@@ -15,14 +15,14 @@ const Hero = () => {
       className={`flex flex-col sm:flex-row justify-center items-center gap-0 sm:gap-10 py-20 lg:py-40 px-5 min-[440px]:px-20`}
     >
       <div
-        className={`bg-gradient-to-tr from-primary via-transparent to-primary animate-slow-spin p-0.5 rounded-full`}
+        className={`bg-gradient-to-tr from-primary via-transparent to-primary p-0.5 rounded-full`}
       >
         <Image
           src="/images/hero-img.png"
           alt="Hero section image"
           width={500}
           height={500}
-          className={`object-scale-down h-64 lg:h-96 w-fit rounded-full animate-reverse-spin`}
+          className={`object-scale-down h-64 lg:h-96 w-fit rounded-full`}
         />
       </div>
 

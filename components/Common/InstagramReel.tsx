@@ -15,7 +15,7 @@ const InstagramReel = ({ url }: Props) => {
   }, []);
 
   return (
-    <div className="instagram-embed px-2 py-5 sm:p-5 w-full">
+    <div className="instagram-embed px-2 py-5 sm:p-5">
       <blockquote
         className="instagram-media"
         data-instgrm-permalink={url}

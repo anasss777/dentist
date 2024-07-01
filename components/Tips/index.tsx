@@ -18,8 +18,8 @@ const Tips = () => {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center gap-20 py-20 lg:py-32 px-5 md:px-10 lg:px-20 xl:px-40 bg-third dark:bg-third/5
-        border-y dark:border-none`}
+      className={`flex flex-col justify-center items-center gap-20 py-20 lg:py-32 px-5 md:px-10 lg:px-20 xl:px-40 bg-third
+        dark:bg-third/5 border-y dark:border-none`}
     >
       {/* Heading */}
       <div
@@ -34,7 +34,7 @@ const Tips = () => {
       </div>
 
       {/* Tips List */}
-      <div className={`flex flex-row w-full overflow-x-scroll scroll-smooth`}>
+      <div className={`flex flex-wrap justify-center items-start w-full`}>
         {reelsLink.map((reel, index) => (
           <InstagramReel key={index} url={reel} />
         ))}

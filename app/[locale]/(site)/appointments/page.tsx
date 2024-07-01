@@ -24,7 +24,7 @@ const Appointments = () => {
         <p className={`text-primary text-2xl md:text-4xl font-bold`}>
           {t("heading")}
         </p>
-        <BreadCrumb pageName={t("heading")} pageLink="/appointments" />
+        <BreadCrumb pageName={t("heading")} />
       </div>
 
       {/* Upcoming appointments */}

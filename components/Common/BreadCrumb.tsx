@@ -7,7 +7,7 @@ const { Link } = createSharedPathnamesNavigation({ locales });
 
 type Props = {
   pageName: string;
-  pageLink: string;
+  pageLink?: string;
 };
 
 const BreadCrumb = ({ pageName, pageLink }: Props) => {
@@ -16,13 +16,21 @@ const BreadCrumb = ({ pageName, pageLink }: Props) => {
 
   return (
     <div className={`flex flex-row justify-center items-center gap-1`}>
-      <Link href="/" locale={locale} className={`text-gray-600`}>
+      <Link href="/" locale={locale} className={`text-gray-600 cursor-pointer`}>
         {t("home")}
       </Link>
       {svgSmallDot}
-      <Link href={pageLink} locale={locale} className={`text-gray-400`}>
-        {pageName}
-      </Link>
+      {pageLink ? (
+        <Link
+          href={pageLink}
+          locale={locale}
+          className={`text-gray-400 cursor-pointer`}
+        >
+          {pageName}
+        </Link>
+      ) : (
+        <div className={`text-gray-400`}>{pageName}</div>
+      )}
     </div>
   );
 };
