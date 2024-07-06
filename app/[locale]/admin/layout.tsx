@@ -1,12 +1,11 @@
-import { Cairo, Noto_Kufi_Arabic } from "next/font/google";
 import "@/styles/globals.css";
 import { NextIntlClientProvider, useLocale, useMessages } from "next-intl";
-import { notFound } from "next/navigation";
+import { Noto_Kufi_Arabic } from "next/font/google";
 import { ReactNode } from "react";
-import Head from "./Head";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Providers } from "./Provider";
+import { notFound } from "next/navigation";
+import Head from "../(site)/Head";
+import { Providers } from "../(site)/Provider";
+import Sidebar from "@/components/Admin/Sidebar";
 import { ContextProvider } from "@/context/stateContext";
 
 const notoKufiArabic = Noto_Kufi_Arabic({
@@ -21,12 +20,14 @@ interface RootLayoutProps {
   };
 }
 
-export default function RootLayout({ children, params }: RootLayoutProps) {
-  const locales = ["en", "ar", "tr"];
+export default function Layout({ children, params }: RootLayoutProps) {
   const locale = useLocale();
+  const isArabic = locale === "ar";
+  const locales = ["en", "ar", "tr"];
   const messages = useMessages();
 
   if (!locales.includes(locale)) notFound();
+
   return (
     <html lang={locale}>
       <Head />
@@ -34,19 +35,18 @@ export default function RootLayout({ children, params }: RootLayoutProps) {
       <body
         className={`${
           notoKufiArabic.className
-        } dark:bg-gray-900 bg-gray-50 flex flex-col min-h-screen ${
+        } dark:bg-gray-900 bg-gray-50 flex flex-row min-h-screen ${
           locale === "ar" && "rtl"
         }`}
       >
-        <Providers>
-          <ContextProvider>
+        <ContextProvider>
+          <Providers>
             <NextIntlClientProvider locale={locale} messages={messages}>
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <Footer />
+              <Sidebar />
+              <div className="flex-grow">{children}</div>
             </NextIntlClientProvider>
-          </ContextProvider>
-        </Providers>
+          </Providers>
+        </ContextProvider>
       </body>
     </html>
   );

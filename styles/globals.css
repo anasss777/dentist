@@ -59,6 +59,8 @@
     @apply max-h-fit py-[30px] opacity-100;
 }
 
+
+/* Reverser spin */
 @keyframes reverse-spin {
     to {
         transform: rotate(-360deg);
@@ -68,6 +70,7 @@
     animation: reverse-spin 5s linear infinite;
 }
 
+/* Slow spin */
 @keyframes slow-spin {
     to {
         transform: rotate(360deg);
@@ -75,4 +78,14 @@
 }
 .animate-slow-spin {
     animation: slow-spin 5s linear infinite;
+}
+
+/* One spin */
+@keyframes one-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.animate-one-spin {
+    animation: one-spin 1s linear;
 }

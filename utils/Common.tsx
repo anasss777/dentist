@@ -37,6 +37,15 @@ export const getDayOfWeek = (selectedDate: DateValue, locale: string) => {
     .toLocaleDateString(localeString, { weekday: "long" });
 };
 
+export const getByLocale = (
+  locale: string,
+  textAr: string,
+  textEn: string,
+  textTr: string
+) => {
+  return locale === "ar" ? textAr : locale === "en" ? textEn : textTr;
+};
+
 // export async function sendEmail(
 //   to: string,
 //   subject: string,
