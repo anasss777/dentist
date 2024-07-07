@@ -1,20 +1,57 @@
-import { useLocale, useTranslations } from "next-intl";
-import React from "react";
-import InstagramReel from "../Common/InstagramReel";
-import { createSharedPathnamesNavigation } from "next-intl/navigation";
+"use client";
 
-const locales = ["ar", "en"];
-const { Link } = createSharedPathnamesNavigation({ locales });
+import firebase from "@/firebase";
+import React, { useEffect, useState } from "react";
+import TipsCard from "./TipsCard";
+import { useTranslations } from "next-intl";
+import { Tip } from "@/types/tips";
+import Loading from "../Common/Loading";
 
-const Tips = () => {
+const TipsSection = () => {
+  const [tips, setTips] = useState<Tip[]>([]);
   const t = useTranslations("tips");
-  const locale = useLocale();
 
-  const reelsLink = [
-    "https://www.instagram.com/reel/CqiLhGaqha7/",
-    "https://www.instagram.com/reel/Cp-eMyzK5mM/",
-    "https://www.instagram.com/reel/CoKxRQuKjA9",
-  ];
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection("tips")
+      .onSnapshot((snapshot) => {
+        const newTips: Tip[] = []; // Create a new array to hold updated Tips
+        snapshot?.forEach((doc) => {
+          newTips.push({
+            tipId: doc.id,
+            ...doc.data(),
+          } as Tip);
+        });
+
+        setTips(newTips);
+      });
+
+    // Unsubscribe from Firestore listener when component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  if (tips.length === 0) {
+    return (
+      <div
+        className={`flex flex-col justify-center items-center gap-20 py-20 lg:py-32 px-5 md:px-10 lg:px-20 xl:px-40 bg-third
+        dark:bg-third/5 border-y dark:border-none`}
+      >
+        {/* Heading */}
+        <div
+          className={`flex flex-col justify-center items-center gap-3 text-center`}
+        >
+          <p className={`text-primary text-2xl md:text-4xl font-bold`}>
+            {t("heading")}
+          </p>
+          <p className={`text-secondary text-normal md:text-lg font-light`}>
+            {t("subheading")}
+          </p>
+        </div>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -33,22 +70,26 @@ const Tips = () => {
         </p>
       </div>
 
-      {/* Tips List */}
-      <div className={`flex flex-wrap justify-center items-start w-full`}>
-        {reelsLink.map((reel, index) => (
-          <InstagramReel key={index} url={reel} />
-        ))}
-      </div>
-
-      <Link
-        href="/tips"
-        locale={locale}
-        className={`btn bg-primary text-normal md:text-lg hover:px-6 -mt-16`}
+      {/* Tips card */}
+      <div
+        className={`flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center`}
       >
-        {t("seeMore")}
-      </Link>
+        {tips
+          .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
+          .slice(0, 3)
+          .map((tip, index) => (
+            <div key={index}>
+              <TipsCard
+                title={tip.tipTitle}
+                imageSrc={tip.tipImage}
+                tipId={`${tip.tipId}`}
+                createdAt={tip.createdAt}
+              />
+            </div>
+          ))}
+      </div>
     </div>
   );
 };
 
-export default Tips;
+export default TipsSection;

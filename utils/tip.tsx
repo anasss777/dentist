@@ -193,3 +193,33 @@ export const deleteTip = (tip: Tip) => {
       console.log("Error getting document:", error);
     });
 };
+
+export const AddComment = async (
+  tipId: string,
+  commenterName: string,
+  commentContent: string
+) => {
+  try {
+    let docRefComment = await firebase.firestore().collection("comments").add({
+      commentContent,
+      commenterName,
+    });
+
+    await docRefComment.update({
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      id: docRefComment.id,
+    });
+
+    console.log("Document written with ID: ", docRefComment.id);
+
+    await firebase
+      .firestore()
+      .collection("tips")
+      .doc(tipId)
+      .update({
+        comments: firebase.firestore.FieldValue.arrayUnion(docRefComment),
+      });
+  } catch (error) {
+    console.log("Error adding comment");
+  }
+};
