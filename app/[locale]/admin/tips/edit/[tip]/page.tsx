@@ -152,7 +152,7 @@ const Page = ({ params }: Props) => {
         theme="snow"
         value={content}
         onChange={setContent}
-        className={`bg-white/40 w-full h-96 pb-[44px]`}
+        className={`bg-white/40 dark:bg-white/10 w-full h-96 pb-[44px]`}
       />
 
       <div className={`flex flex-col`}>

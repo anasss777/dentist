@@ -22,7 +22,7 @@ const TipsCard = ({ title, imageSrc, tipId, createdAt }: Props) => {
       locale={locale}
       href={`/tips/${tipId}`}
       className={`flex flex-col gap-2 justify-start items-start rounded-xl w-full pb-5 hover:scale-[1.01] transition-all duration-300
-      ease-linear mx-auto h-fit md:h-[270px] my-3 bg-gradient-to-t from-transparent via-secondary/30 to-primary/70`}
+      ease-linear mx-auto h-fit md:h-[270px] my-3 bg-gradient-to-t from-transparent via-primary/30 to-primary/70`}
     >
       {/* Tip Image */}
       <div className={`w-full h-40 min-[500px]:h-60 md:h-40 p-2`}>

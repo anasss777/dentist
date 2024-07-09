@@ -93,7 +93,7 @@ const Page = ({ params }: Props) => {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center px-10 lg:px-32 pb-5 pt-10 lg:py-20`}
+      className={`flex flex-col justify-center items-center px-5 lg:px-32 pb-5 pt-10 lg:py-20`}
     >
       <div className={`lg:mb-6 mb-20`}>
         <BreadCrumb pageName={t("heading")} pageLink="/tips" />
@@ -124,13 +124,12 @@ const Page = ({ params }: Props) => {
           alt="testing"
           height={1000}
           width={1000}
+          priority
           className={`object-cover h-96 w-full rounded-xl border border-primary shadow-Card mb-12`}
         />
 
         {/* Tip content */}
-        <div className="quill-content dark:text-white">
-          {parse(tip.content)}
-        </div>
+        <div className="quill-content">{parse(tip.content)}</div>
       </div>
 
       {/* Add new comment */}
@@ -141,7 +140,7 @@ const Page = ({ params }: Props) => {
         <div className={`w-full mt-10`}>
           {comments.map((comment, index) => (
             <div key={index}>
-              <CommentCard comment={comment} />
+              <CommentCard comment={comment} tip={tip} />
             </div>
           ))}
         </div>

@@ -185,6 +185,15 @@
     "comments": "التعليقات",
     "nameError": "الرجاء إدخال الإسم",
     "contentError": "الرجاء كتابة تعليق",
-    "showMore": "رؤية المزيد"
+    "sure": "هل أنت متأكد؟",
+    "deleteCommentWarning": "سيتم حذف التعليق نهائياً",
+    "cancel": "إلغاء",
+    "yesDelete": "حذف",
+    "commentDeleted": "تم حذف التعليق بنجاح",
+    "ok": "حسناً",
+    "showMore": "رؤية المزيد",
+    "success": "تم الإبلاغ عن التعليق",
+    "reportContent": "إكتب بلاغك عن التعليق",
+    "report": "إبلاغ"
   }
 }

@@ -8,6 +8,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Providers } from "./Provider";
 import { ContextProvider } from "@/context/stateContext";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const notoKufiArabic = Noto_Kufi_Arabic({
   subsets: ["arabic"],
@@ -38,6 +40,7 @@ export default function RootLayout({ children, params }: RootLayoutProps) {
           locale === "ar" && "rtl"
         }`}
       >
+        <ToastContainer />
         <Providers>
           <ContextProvider>
             <NextIntlClientProvider locale={locale} messages={messages}>

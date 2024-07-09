@@ -163,18 +163,23 @@ export const deleteTip = (tip: Tip) => {
         }
 
         // Delete tip's image from Firebase Storage
-        firebase
-          .storage()
-          .refFromURL(tip.tipImage)
-          .delete()
-          .then(() => {
-            console.log(
-              "Tip's image deleted successfully from Firebase Storage!"
-            );
-          })
-          .catch((error: any) => {
-            console.log("Error deleting image from Firebase Storage: ", error);
-          });
+        if (tip.tipImage) {
+          firebase
+            .storage()
+            .refFromURL(tip.tipImage)
+            .delete()
+            .then(() => {
+              console.log(
+                "Tip's image deleted successfully from Firebase Storage!"
+              );
+            })
+            .catch((error: any) => {
+              console.log(
+                "Error deleting image from Firebase Storage: ",
+                error
+              );
+            });
+        }
 
         // Delete tip from Firestore
         tipRef
@@ -222,4 +227,58 @@ export const AddComment = async (
   } catch (error) {
     console.log("Error adding comment");
   }
+};
+
+export const deleteComment = async (tip: Tip, commentId: string) => {
+  // Get the comment document
+  let docRefComment = firebase
+    .firestore()
+    .collection("comments")
+    .doc(commentId);
+
+  const comment = await docRefComment.get();
+
+  if (!comment?.exists) {
+    console.log("No such comment!");
+    return;
+  }
+
+  // Remove the comment reference from the tip document
+  await firebase
+    .firestore()
+    .collection("tips")
+    .doc(tip.tipId)
+    .update({
+      comments: firebase.firestore.FieldValue.arrayRemove(docRefComment),
+    });
+
+  // Delete the comment document
+  await docRefComment.delete();
+
+  console.log("Comment deleted with ID: ", commentId);
+};
+
+export const reportComment = async (
+  commentId: string,
+  reportContent: string
+) => {
+  // Get the comment document
+  let docRefComment = firebase
+    .firestore()
+    .collection("comments")
+    .doc(commentId);
+
+  const comment = await docRefComment.get();
+
+  if (!comment?.exists) {
+    console.log("No such comment!");
+    return;
+  }
+
+  // Delete the comment document
+  await docRefComment.update({
+    report: firebase.firestore.FieldValue.arrayUnion(reportContent),
+  });
+
+  console.log("Comment reported with ID: ", commentId);
 };

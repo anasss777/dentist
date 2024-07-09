@@ -84,7 +84,7 @@ const TipsPage = () => {
 
       {/* Tips card */}
       <div
-        className={`flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center`}
+        className={`flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-10 justify-center mt-8`}
       >
         {searchedTips
           .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
