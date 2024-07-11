@@ -259,26 +259,56 @@ export const deleteComment = async (tip: Tip, commentId: string) => {
 };
 
 export const reportComment = async (
-  commentId: string,
+  comment: Comment,
+  tip: Tip,
   reportContent: string
 ) => {
-  // Get the comment document
-  let docRefComment = firebase
-    .firestore()
-    .collection("comments")
-    .doc(commentId);
+  try {
+    let docRefReport = await firebase.firestore().collection("reports").add({
+      comment,
+      tip,
+      reportContent,
+    });
 
-  const comment = await docRefComment.get();
+    await docRefReport.update({
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      id: docRefReport.id,
+    });
 
-  if (!comment?.exists) {
-    console.log("No such comment!");
-    return;
+    console.log("Document written with ID: ", docRefReport.id);
+
+    await firebase
+      .firestore()
+      .collection("comments")
+      .doc(comment.id)
+      .update({
+        reports: firebase.firestore.FieldValue.arrayUnion(docRefReport),
+      });
+  } catch (error) {
+    console.log("Error adding report");
+  }
+};
+
+export const getReportedCommentsByTip = async (tip: Tip) => {
+  let reportedComments: Comment[] = [];
+  const commentsIds = tip?.comments?.map((comment) => comment.id);
+  const commentsRefs = commentsIds?.map((commentId) =>
+    firebase.firestore().doc(`comments/${commentId}`)
+  );
+
+  if (commentsRefs) {
+    const commentSnaps = await Promise.all(
+      commentsRefs.map(async (ref) => await ref.get())
+    );
+
+    const commentsData: Comment[] = commentSnaps?.map(
+      (commentSnap) => ({ ...commentSnap.data() } as Comment)
+    );
+
+    reportedComments = commentsData.filter(
+      (cData) => cData.reports && cData.reports?.length > 0
+    );
   }
 
-  // Delete the comment document
-  await docRefComment.update({
-    report: firebase.firestore.FieldValue.arrayUnion(reportContent),
-  });
-
-  console.log("Comment reported with ID: ", commentId);
+  return reportedComments;
 };

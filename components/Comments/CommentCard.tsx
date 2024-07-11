@@ -100,7 +100,7 @@ const CommentCard = ({ comment, tip }: Props) => {
 
         <div className={`flex flex-row gap-1 justify-end items-end mt-5`}>
           {/* Report */}
-          <ReportComment comment={comment} />
+          {/* <ReportComment comment={comment} tip={tip} /> */}
 
           {/* Delete (admin exclusive) */}
           {isAdmin && (

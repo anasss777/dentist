@@ -1,63 +1,34 @@
+"use client";
+
+import firebase from "@/firebase";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TestimonialCard from "./TestimonialCard";
+import { Testimonial } from "@/types/testimonial";
 
-const Testimonial = () => {
+const TestimonialSection = () => {
   const t = useTranslations("testimonial");
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
-  const testimonialData = [
-    {
-      content:
-        "خدمة ممتازة ورعاية متميزة. أشعر بالراحة دائماً عند زيارة عيادة البسمة.",
-      name: "محمد علي",
-      imgName: "mohamed_ali.jpg",
-    },
-    {
-      content: "تجربة رائعة! الفريق محترف وودود. أوصي بشدة بعيادة البسمة.",
-      name: "سارة أحمد",
-      imgName: "sara_ahmed.jpg",
-    },
-    {
-      content:
-        "التقنيات الحديثة والرعاية الشخصية تجعل عيادة البسمة اختياري الأول دائماً.",
-      name: "أحمد يوسف",
-      imgName: "ahmed_youssef.jpg",
-    },
-    {
-      content:
-        "تجربة تبييض الأسنان كانت مدهشة، والنتائج رائعة. شكراً عيادة البسمة!",
-      name: "ليلى حسن",
-      imgName: "leila_hassan.jpg",
-    },
-    {
-      content: "فريق محترف وبيئة مريحة. خدمة رائعة من البداية إلى النهاية.",
-      name: "خالد إبراهيم",
-      imgName: "khaled_ibrahim.jpg",
-    },
-    {
-      content:
-        "أطفالي يحبون زيارة عيادة البسمة. الرعاية هنا مميزة وتفوق التوقعات.",
-      name: "منى محمد",
-      imgName: "mona_mohamed.jpg",
-    },
-    {
-      content:
-        "أفضل عيادة أسنان زرتها على الإطلاق. شكراً لكم على الرعاية الممتازة.",
-      name: "علي فؤاد",
-      imgName: "ali_fouad.jpg",
-    },
-    {
-      content:
-        "خدمات تقويم الأسنان كانت مدهشة، والنتائج أكثر من رائعة. شكراً لفريق البسمة.",
-      name: "ندى سمير",
-      imgName: "nada_samir.jpg",
-    },
-    {
-      content: "الاهتمام بالتفاصيل والعناية الشخصية يجعلني أشعر بالأمان هنا.",
-      name: "عمر عبد الله",
-      imgName: "omar_abdallah.jpg",
-    },
-  ];
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection("testimonials")
+      .onSnapshot((snapshot) => {
+        const newTestimonials: Testimonial[] = []; // Create a new array to hold updated Testimonials
+        snapshot?.forEach((doc) => {
+          newTestimonials.push({
+            id: doc.id,
+            ...doc.data(),
+          } as Testimonial);
+        });
+
+        setTestimonials(newTestimonials);
+      });
+
+    // Unsubscribe from Firestore listener when component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div
@@ -78,12 +49,11 @@ const Testimonial = () => {
       <div
         className={`flex flex-row w-full overflow-x-scroll scroll-smooth bg-secondary/5 sm:rounded-3xl px-2`}
       >
-        {testimonialData.map((data, index) => (
+        {testimonials.map((testimonial, index) => (
           <TestimonialCard
             key={index}
-            content={data.content}
-            name={data.name}
-            imgName={data.imgName}
+            content={testimonial.content}
+            name={testimonial.giver}
           />
         ))}
       </div>{" "}
@@ -91,4 +61,4 @@ const Testimonial = () => {
   );
 };
 
-export default Testimonial;
+export default TestimonialSection;

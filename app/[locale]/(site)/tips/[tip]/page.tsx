@@ -138,11 +138,13 @@ const Page = ({ params }: Props) => {
       {/* Tip Comments */}
       {comments && (
         <div className={`w-full mt-10`}>
-          {comments.map((comment, index) => (
-            <div key={index}>
-              <CommentCard comment={comment} tip={tip} />
-            </div>
-          ))}
+          {comments
+            .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
+            .map((comment, index) => (
+              <div key={index}>
+                <CommentCard comment={comment} tip={tip} />
+              </div>
+            ))}
         </div>
       )}
     </div>

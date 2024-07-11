@@ -86,6 +86,45 @@ const Sidebar = () => {
         >
           {t("addTip")}
         </Link>
+
+        {/* Testimonials section */}
+        <Link
+          href="/admin/testimonials"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/testimonials` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("testimonials")}
+        </Link>
+
+        {/* Add testimonials section */}
+        <Link
+          href="/admin/testimonials/add"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/testimonials/add` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("addTestimonials")}
+        </Link>
+
+        {/* Reports section */}
+        {/* <Link
+          href="/admin/reports"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/reports` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("reports")}
+        </Link> */}
       </div>
 
       <div

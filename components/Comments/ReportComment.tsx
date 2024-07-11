@@ -7,12 +7,14 @@ import { Comment } from "@/types/comment";
 import { toast } from "react-toastify";
 import Popup from "reactjs-popup";
 import { reportComment } from "@/utils/tip";
+import { Tip } from "@/types/tips";
 
 type Props = {
   comment: Comment;
+  tip: Tip;
 };
 
-const ReportComment = ({ comment }: Props) => {
+const ReportComment = ({ comment, tip }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [reportContent, setReportContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,7 +22,7 @@ const ReportComment = ({ comment }: Props) => {
 
   const handleReporting = () => {
     setIsSubmitting(true);
-    reportComment(comment.id, reportContent);
+    reportComment(comment, tip, reportContent);
     setTimeout(() => {
       toast.success(t("success"));
       setIsOpen(!isOpen);
