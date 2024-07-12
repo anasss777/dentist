@@ -1,4 +1,5 @@
 import firebase from "@/firebase";
+import { Faq } from "@/types/faq";
 import { Testimonial } from "@/types/testimonial";
 
 type EditProps = {
@@ -91,5 +92,53 @@ export const deleteTestimonial = async (testimonial: Testimonial) => {
     })
     .catch((error: any) => {
       console.error("Error deleting testimonial: ", error);
+    });
+};
+
+export const addFaq = async (question: string, answer: string) => {
+  let faqRef = firebase.firestore().collection("faqs").doc();
+
+  await faqRef
+    .set({
+      id: faqRef.id,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      question,
+      answer,
+    })
+    .then(() => {
+      console.log("Faq added successfully!");
+    })
+    .catch((error) => {
+      console.error("Error adding Faq: ", error);
+    });
+};
+
+export const editFaq = async (id: string, question: string, answer: string) => {
+  let faqRef = firebase.firestore().collection("faqs").doc(id);
+
+  await faqRef
+    .update({
+      question,
+      answer,
+    })
+    .then(() => {
+      console.log("Faq updated successfully!");
+    })
+    .catch((error) => {
+      console.error("Error updating faq: ", error);
+    });
+};
+
+export const deleteFaq = async (faq: Faq) => {
+  const faqRef = firebase.firestore().collection("faqs").doc(faq.id);
+
+  // Delete faq from Firestore
+  await faqRef
+    .delete()
+    .then(() => {
+      console.log("Faq deleted successfully.");
+    })
+    .catch((error: any) => {
+      console.error("Error deleting Faq: ", error);
     });
 };

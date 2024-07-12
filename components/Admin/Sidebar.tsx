@@ -113,6 +113,32 @@ const Sidebar = () => {
           {t("addTestimonials")}
         </Link>
 
+        {/* FAQ section */}
+        <Link
+          href="/admin/faq"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/faq` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("faq")}
+        </Link>
+
+        {/* Add faq section */}
+        <Link
+          href="/admin/faq/add"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/faq/add` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("addFaq")}
+        </Link>
+
         {/* Reports section */}
         {/* <Link
           href="/admin/reports"

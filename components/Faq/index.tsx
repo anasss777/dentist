@@ -1,71 +1,34 @@
-import React from "react";
+"use client";
+
+import firebase from "@/firebase";
+import React, { useEffect, useState } from "react";
 import FaqContent from "./FaqContent";
 import { useTranslations } from "next-intl";
+import { Faq } from "@/types/faq";
 
-const Faq = () => {
+const FaqAdmin = () => {
   const t = useTranslations("faq");
-  const FaqData = [
-    {
-      index: 1,
-      question: "كم مرة يجب أن أزور طبيب الأسنان؟",
-      answer:
-        "يوصى بزيارة طبيب الأسنان مرة كل ستة أشهر للفحص الدوري والتنظيف. يمكن أن تختلف هذه التوصية بناءً على حالة الفم والأسنان الفردية.",
-    },
-    {
-      index: 2,
-      question: "ما هو تسوس الأسنان وكيف يمكن الوقاية منه؟",
-      answer:
-        "تسوس الأسنان هو تلف في الأسنان يحدث عندما تتكون الأحماض في الفم نتيجة لتناول السكريات والنشويات. يمكن الوقاية منه عن طريق تنظيف الأسنان بالفرشاة والخيط بانتظام، وتجنب الأطعمة والمشروبات السكرية، وزيارة طبيب الأسنان بانتظام.",
-    },
-    {
-      index: 3,
-      question: "ما هو تقويم الأسنان وما فائدته؟",
-      answer:
-        "تقويم الأسنان هو علاج يستخدم لتحسين ترتيب الأسنان والفكين وتصحيح مشاكل العض. يساعد في تحسين المظهر العام للفم وتسهيل تنظيف الأسنان واللثة.",
-    },
-    {
-      index: 4,
-      question: "ما هي أمراض اللثة وكيف يمكن علاجها؟",
-      answer:
-        "أمراض اللثة تشمل التهابات تصيب الأنسجة التي تدعم الأسنان. يمكن علاجها بتنظيف الأسنان بشكل منتظم واستخدام الخيط، وفي الحالات المتقدمة، قد يحتاج المريض إلى علاجات خاصة من قبل طبيب الأسنان.",
-    },
-    {
-      index: 5,
-      question: "ما هي فوائد استخدام الفلوريد للأسنان؟",
-      answer:
-        "الفلوريد يساعد في تقوية مينا الأسنان ويجعلها أكثر مقاومة للتسوس. يمكن الحصول على الفلوريد من خلال معجون الأسنان والماء المعالج بالفلوريد، وقد يوصي طبيب الأسنان بعلاجات فلوريد إضافية.",
-    },
-    {
-      index: 6,
-      question: "ما هي أهمية خيط الأسنان؟",
-      answer:
-        "استخدام خيط الأسنان يساعد في إزالة البلاك وبقايا الطعام من بين الأسنان التي يصعب الوصول إليها بالفرشاة، مما يساهم في الوقاية من التسوس وأمراض اللثة.",
-    },
-    {
-      index: 7,
-      question: "ما هي حساسية الأسنان وكيف يمكن علاجها؟",
-      answer:
-        "حساسية الأسنان هي ألم حاد مؤقت يحدث عند تعرض الأسنان للهواء البارد أو الأطعمة والمشروبات الساخنة أو الباردة. يمكن علاجها باستخدام معاجين الأسنان المخصصة للأسنان الحساسة وزيارة طبيب الأسنان لتقديم علاجات إضافية.",
-    },
-    {
-      index: 8,
-      question: "كيف يمكنني تبييض أسناني بأمان؟",
-      answer:
-        "تبييض الأسنان يمكن القيام به بطرق متعددة مثل استخدام معاجين الأسنان المبيضة، أو منتجات تبييض الأسنان المنزلية، أو عن طريق العلاجات الاحترافية في عيادة الأسنان. يُنصح باستشارة طبيب الأسنان قبل بدء أي علاج لتبييض الأسنان لضمان سلامته وفعاليته.",
-    },
-    {
-      index: 9,
-      question: "ما هو الفينير (القشور التجميلية)؟",
-      answer:
-        "الفينير هو طبقة رقيقة من المواد التي توضع على السطح الأمامي للأسنان لتحسين مظهرها. تُستخدم القشور التجميلية لتصحيح مشاكل مثل الأسنان المكسورة أو المتآكلة أو الملطخة أو غير المستوية.",
-    },
-    {
-      index: 10,
-      question: "ما هي زراعة الأسنان؟",
-      answer:
-        "زراعة الأسنان هي إجراء يتم فيه استبدال الأسنان المفقودة بجذور صناعية من التيتانيوم تُزرع في عظم الفك، وتُثبت عليها تيجان أو جسور أو أطقم أسنان. تعتبر زراعة الأسنان حلاً دائمًا وثابتًا لاستعادة وظيفة وجمال الفم.",
-    },
-  ];
+  const [faqs, setFaqs] = useState<Faq[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection("faqs")
+      .onSnapshot((snapshot) => {
+        const newFaqs: Faq[] = []; // Create a new array to hold updated Faqs
+        snapshot?.forEach((doc) => {
+          newFaqs.push({
+            id: doc.id,
+            ...doc.data(),
+          } as Faq);
+        });
+
+        setFaqs(newFaqs);
+      });
+
+    // Unsubscribe from Firestore listener when component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div
@@ -88,17 +51,19 @@ const Faq = () => {
       <div
         className={`grid grid-cols-1 md:grid-cols-2 justify-center items-start gap-5`}
       >
-        {FaqData.map((data, index) => (
-          <FaqContent
-            key={index}
-            question={data.question}
-            answer={data.answer}
-            index={data.index}
-          />
-        ))}
+        {faqs
+          .sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)
+          .map((data, index) => (
+            <FaqContent
+              key={index}
+              question={data.question}
+              answer={data.answer}
+              index={index}
+            />
+          ))}
       </div>
     </div>
   );
 };
 
-export default Faq;
+export default FaqAdmin;

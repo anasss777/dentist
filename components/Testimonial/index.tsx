@@ -49,13 +49,15 @@ const TestimonialSection = () => {
       <div
         className={`flex flex-row w-full overflow-x-scroll scroll-smooth bg-secondary/5 sm:rounded-3xl px-2`}
       >
-        {testimonials.map((testimonial, index) => (
-          <TestimonialCard
-            key={index}
-            content={testimonial.content}
-            name={testimonial.giver}
-          />
-        ))}
+        {testimonials
+          .sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)
+          .map((testimonial, index) => (
+            <TestimonialCard
+              key={index}
+              content={testimonial.content}
+              name={testimonial.giver}
+            />
+          ))}
       </div>{" "}
     </div>
   );

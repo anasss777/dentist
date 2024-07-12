@@ -1,52 +1,49 @@
 "use client";
 
 import firebase from "@/firebase";
+import Loading from "@/components/Common/Loading";
 import { svgLoadingWhite } from "@/components/svgPaths";
-import TestimonialCard from "@/components/Testimonial/TestimonialCard";
 import { useStateContext } from "@/context/stateContext";
-import { Testimonial } from "@/types/testimonial";
-import { editTestimonial } from "@/utils/home";
+import { Faq } from "@/types/faq";
+import { addFaq, editFaq } from "@/utils/home";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loading from "@/components/Common/Loading";
+
 type Props = {
-  params: { testimonial: string };
+  params: { faq: string };
 };
 
-const EditTestimonialAdmin = ({ params }: Props) => {
-  const id = params.testimonial;
-  const t = useTranslations("testimonial");
-  const [giver, setGiver] = useState("");
-  const [testimonial, setTestimonial] = useState<Testimonial | null>(null);
-  const [content, setContent] = useState("");
+const EditFaqAdmin = ({ params }: Props) => {
+  const id = params.faq;
+  const t = useTranslations("faq");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [faq, setFaq] = useState<Faq | null>(null);
   const [loading, setLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
-
   const { isAdmin } = useStateContext();
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
-      .collection("testimonials")
+      .collection("faqs")
       .onSnapshot((snapshot) => {
-        const newTestimonials: Testimonial[] = []; // Create a new array to hold updated Testimonials
+        const newFaqs: Faq[] = []; // Create a new array to hold updated Faqs
         snapshot?.forEach((doc) => {
-          newTestimonials.push({
+          newFaqs.push({
             id: doc.id,
             ...doc.data(),
-          } as Testimonial);
+          } as Faq);
         });
 
-        // Set a Testimonial based on if
-        const testimonial = newTestimonials.find(
-          (testimonial) => testimonial.id === id
-        );
-        if (testimonial) {
-          setTestimonial(testimonial);
-          setGiver(testimonial.giver);
-          setContent(testimonial.content);
+        // Set a Faq based on if
+        const faq = newFaqs.find((faq) => faq.id === id);
+        if (faq) {
+          setFaq(faq);
+          setQuestion(faq.question);
+          setAnswer(faq.answer);
           setLoading(false);
         }
       });
@@ -65,8 +62,8 @@ const EditTestimonialAdmin = ({ params }: Props) => {
     );
   }
 
-  if (!testimonial) {
-    return <p>No testimonial found.</p>;
+  if (!faq) {
+    return <p>No faq found.</p>;
   }
 
   if (!isAdmin) {
@@ -79,54 +76,49 @@ const EditTestimonialAdmin = ({ params }: Props) => {
       <div
         className={`flex flex-col justify-center items-center gap-10 w-full h-screen px-10 pb-5 pt-8 overflow-y-auto`}
       >
-        {/* Giver Name */}
+        {/* Faq question */}
         <div className={`flex flex-col justify-center items-center w-full`}>
           <h2
             className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
           >
-            {t("addGiverName")}
+            {t("question")}
           </h2>
           <input
-            aria-label="giver"
-            value={giver}
-            placeholder={t("addGiverName")}
-            onChange={(e) => setGiver(e.target.value)}
+            aria-label="question"
+            value={question}
+            placeholder={t("question")}
+            onChange={(e) => setQuestion(e.target.value)}
             className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
                 outline-primary`}
           />
         </div>
 
-        {/* Testimonial content */}
+        {/* Faq answer */}
         <div className={`flex flex-col justify-center items-center w-full`}>
           <h2
             className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
           >
-            {t("content")}
+            {t("answer")}
           </h2>
           <textarea
             rows={4}
             cols={50}
-            placeholder={t("content")}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            placeholder={t("answer")}
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
             className="border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
             outline-primary"
           ></textarea>
         </div>
 
         {/* Preview */}
-        <div
-          className={`flex flex-row justify-center items-center w-fit p-5 bg-secondary/5 sm:rounded-3xl`}
-        >
-          <TestimonialCard content={content} name={giver} />
-        </div>
 
         {/* Submit button */}
         <button
           className={`btn px-4 mx-auto bg-primary mt-14 shadow-Card hover:px-6`}
           onClick={() => {
             setIsPosting(true);
-            editTestimonial(id, giver, content)
+            editFaq(id, question, answer)
               .then(() => {
                 setTimeout(() => {
                   toast.success(t("editSuccess"));
@@ -153,4 +145,4 @@ const EditTestimonialAdmin = ({ params }: Props) => {
   );
 };
 
-export default EditTestimonialAdmin;
+export default EditFaqAdmin;
