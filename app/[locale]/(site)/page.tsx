@@ -1,3 +1,4 @@
+import BeforeAndAfter from "@/components/BeforeAndAfter";
 import Faq from "@/components/Faq";
 import Contact from "@/components/Home/Contact";
 import Hero from "@/components/Home/Hero";
@@ -14,6 +15,7 @@ export default function Home() {
       <Intro />
       <Services />
       <Highlights />
+      <BeforeAndAfter />
       <Tips />
       <Testimonial />
       <Faq />
