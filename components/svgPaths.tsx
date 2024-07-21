@@ -429,7 +429,7 @@ export const svgInstagram = (
           <stop stopColor="#E0E8B7"></stop>{" "}
           <stop offset="0.444662" stopColor="#FB8A2E"></stop>{" "}
           <stop offset="0.71474" stopColor="#E2425C"></stop>{" "}
-          <stop offset="1" stopColor="#E2425C" stop-opacity="0"></stop>{" "}
+          <stop offset="1" stopColor="#E2425C" stopOpacity="0"></stop>{" "}
         </radialGradient>{" "}
         <radialGradient
           id="paint2_radial_87_7153"
@@ -442,7 +442,7 @@ export const svgInstagram = (
           {" "}
           <stop offset="0.156701" stopColor="#406ADC"></stop>{" "}
           <stop offset="0.467799" stopColor="#6A45BE"></stop>{" "}
-          <stop offset="1" stopColor="#6A45BE" stop-opacity="0"></stop>{" "}
+          <stop offset="1" stopColor="#6A45BE" stopOpacity="0"></stop>{" "}
         </radialGradient>{" "}
       </defs>{" "}
     </g>
@@ -717,6 +717,83 @@ export const svgDefaultImage = (
     fill={black}
     height={250}
     width={250}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      <path
+        d="M63.9 159v706h896.2V159H63.9z m852.2 662H107.9v-11.6l193.6-193.6 118.8 118.8 11.3 11.3 11.3-11.3 323-323 150.2 150.2V821z m0-281.9L765.9 388.9 431.6 723.3 301.5 593.1 107.9 786.7V203h808.2v336.1z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M306.7 446.9c-43.6 0-79.1-35.5-79.1-79.1s35.5-79.1 79.1-79.1c43.6 0 79.1 35.5 79.1 79.1s-35.5 79.1-79.1 79.1z m0-142.2c-34.8 0-63.1 28.3-63.1 63.1s28.3 63.1 63.1 63.1 63.1-28.3 63.1-63.1-28.3-63.1-63.1-63.1z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M306.3 252.3m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M248.6 267.9m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M206.4 310.4m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M191.1 368.2m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M206.8 425.9m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M249.2 468m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M307 483.3m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M364.8 467.7m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M406.9 425.2m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M422.2 367.4m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M406.5 309.7m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+      <path
+        d="M364.1 267.6m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
+        fill="#bbb"
+      ></path>
+    </g>
+  </svg>
+);
+
+export const svgDefaultImageSmaller = (
+  <svg
+    viewBox="0 0 1024 1024"
+    className="icon"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    fill={black}
+    height={160}
+    width={268}
   >
     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g

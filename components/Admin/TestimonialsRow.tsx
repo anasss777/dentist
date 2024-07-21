@@ -5,6 +5,7 @@ import { svgDelete, svgEdit } from "../svgPaths";
 import Swal from "sweetalert2";
 import { Testimonial } from "@/types/testimonial";
 import { deleteTestimonial } from "@/utils/home";
+import { toast } from "react-toastify";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
 
@@ -29,12 +30,7 @@ const TestimonialsRow = ({ testimonial }: Props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteTestimonial(testimonial);
-        Swal.fire({
-          text: t("testimonialDeleted"),
-          icon: "success",
-          confirmButtonColor: "#4682b4",
-          confirmButtonText: t("ok"),
-        });
+        toast.success(t("testimonialDeleted"));
       }
     });
   };

@@ -1,6 +1,5 @@
 // "use server";
 
-import { DateValue } from "@nextui-org/react";
 import nodemailer from "nodemailer";
 
 export const getDaysUntilAppointment = (
@@ -29,12 +28,39 @@ export const splitDateTime = (dateTimeString: string): [string, string] => {
   return [date, time];
 };
 
-export const getDayOfWeek = (selectedDate: DateValue, locale: string) => {
-  const localeString =
-    locale === "ar" ? "ar-EG" : locale === "en" ? "en-US" : "tr-TR";
-  return selectedDate
-    .toDate("gmt")
-    .toLocaleDateString(localeString, { weekday: "long" });
+export const getDayOfWeek = (date: number, locale: string) => {
+  const daysOfWeek: any = {
+    en: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    ar: [
+      "الأحد",
+      "الاثنين",
+      "الثلاثاء",
+      "الأربعاء",
+      "الخميس",
+      "الجمعة",
+      "السبت",
+    ],
+    tr: [
+      "Pazar",
+      "Pazartesi",
+      "Salı",
+      "Çarşamba",
+      "Perşembe",
+      "Cuma",
+      "Cumartesi",
+    ],
+  };
+
+  const selectedDaysOfWeek = daysOfWeek[locale] || daysOfWeek["en"];
+  return selectedDaysOfWeek[date];
 };
 
 export const getByLocale = (

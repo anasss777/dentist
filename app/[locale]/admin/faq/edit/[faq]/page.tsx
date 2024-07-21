@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params: { faq: string };
@@ -24,6 +25,7 @@ const EditFaqAdmin = ({ params }: Props) => {
   const [loading, setLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
   const { isAdmin } = useStateContext();
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -120,10 +122,11 @@ const EditFaqAdmin = ({ params }: Props) => {
             setIsPosting(true);
             editFaq(id, question, answer)
               .then(() => {
+                toast.success(t("editSuccess"));
                 setTimeout(() => {
-                  toast.success(t("editSuccess"));
                   setIsPosting(false);
-                }, 1000);
+                  router.push(`/admin/faq`);
+                }, 1500);
               })
               .catch(() => {
                 alert(t("error"));

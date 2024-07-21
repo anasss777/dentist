@@ -11,6 +11,8 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "@/components/Common/Loading";
+import { useRouter } from "next/navigation";
+
 type Props = {
   params: { testimonial: string };
 };
@@ -23,8 +25,8 @@ const EditTestimonialAdmin = ({ params }: Props) => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
-
   const { isAdmin } = useStateContext();
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -128,10 +130,11 @@ const EditTestimonialAdmin = ({ params }: Props) => {
             setIsPosting(true);
             editTestimonial(id, giver, content)
               .then(() => {
+                toast.success(t("editSuccess"));
                 setTimeout(() => {
-                  toast.success(t("editSuccess"));
                   setIsPosting(false);
-                }, 1000);
+                  router.push(`/admin/testimonials`);
+                }, 1500);
               })
               .catch(() => {
                 alert(t("error"));

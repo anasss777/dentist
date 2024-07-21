@@ -6,6 +6,7 @@ import { svgLoadingWhite } from "@/components/svgPaths";
 import { useStateContext } from "@/context/stateContext";
 import { addFaq } from "@/utils/home";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +17,7 @@ const AddFaqAdmin = () => {
   const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { isAdmin } = useStateContext();
+  const router = useRouter();
 
   if (!isAdmin) {
     return <Loading />;
@@ -74,12 +76,13 @@ const AddFaqAdmin = () => {
             setIsLoading(true);
             addFaq(question, answer)
               .then(() => {
+                toast.success(t("success"));
                 setTimeout(() => {
-                  toast.success(t("success"));
                   setIsLoading(false);
                   setQuestion("");
                   setAnswer("");
-                }, 1000);
+                  router.push(`/admin/faq`);
+                }, 1500);
               })
               .catch(() => {
                 alert(t("error"));

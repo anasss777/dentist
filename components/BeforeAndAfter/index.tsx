@@ -1,16 +1,19 @@
 "use client";
 
-import React from "react";
+import firebase from "@/firebase";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import BnACard from "./BnACard";
 import { useLocale, useTranslations } from "next-intl";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { BeforeAndAfter } from "@/types/beforeAndAfter";
 
-const BeforeAndAfter: React.FC = () => {
+const BeforeAndAfterSection: React.FC = () => {
   const t = useTranslations("bna");
   const locale = useLocale();
   const isArabic = locale === "ar";
+  const [beforeAndAfter, setBeforeAndAfter] = useState<BeforeAndAfter[]>([]);
 
   const settings = {
     infinite: true,
@@ -39,6 +42,26 @@ const BeforeAndAfter: React.FC = () => {
     ],
   };
 
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection("bnas")
+      .onSnapshot((snapshot) => {
+        const newBnas: BeforeAndAfter[] = []; // Create a new array to hold updated bnas
+        snapshot?.forEach((doc) => {
+          newBnas.push({
+            id: doc.id,
+            ...doc.data(),
+          } as BeforeAndAfter);
+        });
+
+        setBeforeAndAfter(newBnas);
+      });
+
+    // Unsubscribe from Firestore listener when component unmounts
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center gap-20 py-20 lg:py-32 px-5 md:px-10 lg:px-20 xl:px-40">
       {/* Heading */}
@@ -53,14 +76,14 @@ const BeforeAndAfter: React.FC = () => {
 
       <div className={`w-[90%]`}>
         <Slider {...settings}>
-          {Array.from({ length: 8 }, (_, index) => (
+          {beforeAndAfter.map((bna, index) => (
             <div
               key={index}
               className={`py-10 !flex !justify-center !items-center`}
             >
               <BnACard
-                beforeImage={"/images/hero-img.png"}
-                afterImage={"/images/testing.png"}
+                beforeImage={bna.beforeImage}
+                afterImage={bna.afterImage}
               />
             </div>
           ))}
@@ -70,4 +93,4 @@ const BeforeAndAfter: React.FC = () => {
   );
 };
 
-export default BeforeAndAfter;
+export default BeforeAndAfterSection;

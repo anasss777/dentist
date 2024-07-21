@@ -228,65 +228,6 @@ const SignUp = () => {
             <div
               className={`flex flex-col justify-center items-center w-[90%] mx-auto`}
             >
-              <input
-                aria-label="email"
-                name="email"
-                type="email"
-                placeholder={t("email")}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className={`rounded-md outline-none border focus:border-primary/50 p-3 w-full mx-auto ltr ${
-                  isArabic && "placeholder:text-right"
-                }`}
-              />
-              <p
-                className={`text-[#d33] text-sm font-light w-full ${
-                  isArabic ? "text-right" : "text-left"
-                }`}
-              >
-                {emailError}
-              </p>
-            </div>
-
-            <div
-              className={`flex flex-col justify-center items-center w-[90%] mx-auto`}
-            >
-              <div className={`flex flex-row justify-center items-center`}>
-                <input
-                  aria-label="phoneNumber"
-                  name="phoneNumber"
-                  type="tel"
-                  placeholder={t("phoneNumber")}
-                  value={phoneNumber === 0 ? "" : phoneNumber}
-                  onChange={(e) => setPhoneNumber(+e.target.value)}
-                  required
-                  className={`rounded-s-md outline-none border focus:border-primary/50 p-3 w-[85%] ${
-                    (phoneNumber === 0 || !phoneNumber) && "rtl"
-                  }`}
-                />
-                <div
-                  className={`bg-primary rounded-e-md text-white p-3 w-[15%]`}
-                >
-                  {`${dialCode}+`}
-                </div>
-              </div>
-              <p
-                className={`text-[#d33] text-sm font-light w-full ${
-                  isArabic ? "text-right" : "text-left"
-                }`}
-              >
-                {phoneNumberError}
-              </p>
-            </div>
-          </div>
-
-          <div
-            className={`flex md:flex-row flex-col gap-4 w-full justify-start items-start`}
-          >
-            <div
-              className={`flex flex-col justify-center items-center w-[90%] mx-auto`}
-            >
               <Select
                 aria-label="gender"
                 dir={isArabic ? "rtl" : "ltr"}
@@ -336,6 +277,65 @@ const SignUp = () => {
                 }`}
               >
                 {countryError}
+              </p>
+            </div>
+          </div>
+
+          <div
+            className={`flex md:flex-row flex-col gap-4 w-full justify-start items-start`}
+          >
+            <div
+              className={`flex flex-col justify-center items-center w-[90%] mx-auto`}
+            >
+              <input
+                aria-label="email"
+                name="email"
+                type="email"
+                placeholder={t("email")}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className={`rounded-md outline-none border focus:border-primary/50 p-3 w-full mx-auto ltr ${
+                  isArabic && "placeholder:text-right"
+                }`}
+              />
+              <p
+                className={`text-[#d33] text-sm font-light w-full ${
+                  isArabic ? "text-right" : "text-left"
+                }`}
+              >
+                {emailError}
+              </p>
+            </div>
+
+            <div
+              className={`flex flex-col justify-center items-center w-[90%] mx-auto`}
+            >
+              <div className={`flex flex-row justify-center items-center`}>
+                <input
+                  aria-label="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder={t("phoneNumber")}
+                  value={phoneNumber === 0 ? "" : phoneNumber}
+                  onChange={(e) => setPhoneNumber(+e.target.value)}
+                  required
+                  className={`rounded-s-md outline-none border focus:border-primary/50 p-3 w-[85%] ${
+                    (phoneNumber === 0 || !phoneNumber) && "rtl"
+                  }`}
+                />
+                <div
+                  className={`bg-primary rounded-e-md text-white p-3 w-[15%]`}
+                >
+                  {`${dialCode}+`}
+                </div>
+              </div>
+              <p
+                className={`text-[#d33] text-sm font-light w-full ${
+                  isArabic ? "text-right" : "text-left"
+                }`}
+              >
+                {phoneNumberError}
               </p>
             </div>
           </div>

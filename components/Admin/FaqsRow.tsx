@@ -7,7 +7,8 @@ import { Faq } from "@/types/faq";
 import { deleteFaq } from "@/utils/home";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type Props = {
   faq: Faq;
 };
@@ -29,12 +30,7 @@ const FaqsRow = ({ faq }: Props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteFaq(faq);
-        Swal.fire({
-          text: t("faqDeleted"),
-          icon: "success",
-          confirmButtonColor: "#4682b4",
-          confirmButtonText: t("ok"),
-        });
+        toast.success(t("faqDeleted"));
       }
     });
   };

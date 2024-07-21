@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { editHighlightSection } from "@/utils/home";
+import { useStateContext } from "@/context/stateContext";
+import Loading from "@/components/Common/Loading";
 
 type Highlight = {
   link1: string;
@@ -23,6 +25,7 @@ const HighlightsAdmin = () => {
   const [link2, setLink2] = useState("");
   const [link3, setLink3] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isAdmin } = useStateContext();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -42,6 +45,10 @@ const HighlightsAdmin = () => {
     // Unsubscribe from Firestore listener when component unmounts
     return () => unsubscribe();
   }, []);
+
+  if (!isAdmin) {
+    return <Loading />;
+  }
 
   return (
     <>

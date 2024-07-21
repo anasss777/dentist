@@ -8,6 +8,8 @@ import { Tip } from "@/types/tips";
 import { deleteTip } from "@/utils/tip";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   tip: Tip;
@@ -30,12 +32,7 @@ const TipsRow = ({ tip }: Props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteTip(tip);
-        Swal.fire({
-          text: t("tipDeleted"),
-          icon: "success",
-          confirmButtonColor: "#4682b4",
-          confirmButtonText: t("ok"),
-        });
+        toast.success(t("tipDeleted"));
       }
     });
   };

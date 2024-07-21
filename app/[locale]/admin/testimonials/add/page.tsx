@@ -6,6 +6,7 @@ import TestimonialCard from "@/components/Testimonial/TestimonialCard";
 import { useStateContext } from "@/context/stateContext";
 import { addTestimonial } from "@/utils/home";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +17,7 @@ const AddTestimonialAdmin = () => {
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { isAdmin } = useStateContext();
+  const router = useRouter();
 
   if (!isAdmin) {
     return <Loading />;
@@ -76,12 +78,13 @@ const AddTestimonialAdmin = () => {
             setIsLoading(true);
             addTestimonial(giver, content)
               .then(() => {
+                toast.success(t("success"));
                 setTimeout(() => {
-                  toast.success(t("success"));
                   setIsLoading(false);
                   setGiver("");
                   setContent("");
-                }, 1000);
+                  router.push(`/admin/testimonials`);
+                }, 1500);
               })
               .catch(() => {
                 alert(t("error"));

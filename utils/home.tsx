@@ -1,4 +1,5 @@
 import firebase from "@/firebase";
+import { BeforeAndAfter } from "@/types/beforeAndAfter";
 import { Faq } from "@/types/faq";
 import { Testimonial } from "@/types/testimonial";
 
@@ -140,5 +141,236 @@ export const deleteFaq = async (faq: Faq) => {
     })
     .catch((error: any) => {
       console.error("Error deleting Faq: ", error);
+    });
+};
+
+export const addBeforeAndAfter = async (
+  beforeImageFile?: File,
+  afterImageFile?: File
+) => {
+  let bnaRef = firebase.firestore().collection("bnas").doc();
+
+  await bnaRef
+    .set({
+      id: bnaRef.id,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    .then(() => {
+      console.log("bna created successfully!");
+    })
+    .catch((error) => {
+      console.error("Error creating bna: ", error);
+    });
+
+  if (beforeImageFile) {
+    // Create a reference to the file in Firebase Storage
+    let timestamp = new Date().getTime();
+    const storageRef = firebase.storage().ref();
+    const newImageRef = storageRef.child(
+      `images/beforeImages/${beforeImageFile.name}${timestamp}`
+    );
+
+    // Upload image to Firebase Storage
+    newImageRef.put(beforeImageFile).then((snapshot) => {
+      console.log(`Uploaded a ${beforeImageFile.name} image!`);
+
+      // Get the download URL of the image and update the bnas in Firestore
+      snapshot.ref.getDownloadURL().then((downloadURL) => {
+        bnaRef
+          .update({
+            beforeImage: downloadURL,
+          })
+          .then(() => {
+            console.log("Before image added successfully to Firestore.");
+          })
+          .catch((error) => {
+            console.error("Error adding Before image to Firestore: ", error);
+          });
+      });
+    });
+  }
+
+  if (afterImageFile) {
+    // Create a reference to the file in Firebase Storage
+    let timestamp = new Date().getTime();
+    const storageRef = firebase.storage().ref();
+    const newImageRef = storageRef.child(
+      `images/afterImages/${afterImageFile.name}${timestamp}`
+    );
+
+    // Upload image to Firebase Storage
+    newImageRef.put(afterImageFile).then((snapshot) => {
+      console.log(`Uploaded a ${afterImageFile.name} image!`);
+
+      // Get the download URL of the image and update the bnas in Firestore
+      snapshot.ref.getDownloadURL().then((downloadURL) => {
+        bnaRef
+          .update({
+            afterImage: downloadURL,
+          })
+          .then(() => {
+            console.log("After image added successfully to Firestore.");
+          })
+          .catch((error) => {
+            console.error("Error adding After image to Firestore: ", error);
+          });
+      });
+    });
+  }
+};
+
+export const editBeforeAndAfter = async (
+  id: string,
+  beforeImage?: string,
+  afterImage?: string,
+  beforeImageFile?: File,
+  afterImageFile?: File
+) => {
+  let bnaRef = firebase.firestore().collection("bnas").doc(id);
+
+  if (beforeImageFile) {
+    // Create a reference to the file in Firebase Storage
+    let timestamp = new Date().getTime();
+    const storageRef = firebase.storage().ref();
+    const newImageRef = storageRef.child(
+      `images/beforeImages/${beforeImageFile.name}${timestamp}`
+    );
+
+    // Upload the new image to Firebase Storage
+    newImageRef.put(beforeImageFile).then((snapshot) => {
+      console.log(`Uploaded a ${beforeImageFile.name} image!`);
+
+      // Delete before's old image from Firebase Storage
+      if (beforeImage) {
+        firebase
+          .storage()
+          .refFromURL(beforeImage)
+          .delete()
+          .then(() => {
+            console.log(
+              "Before's old image deleted successfully from Firebase Storage!"
+            );
+          })
+          .catch((error: any) => {
+            console.log(
+              "Error deleting before's old image from Firebase Storage: ",
+              error
+            );
+          });
+      }
+
+      // Get the download URL of the image and update the bnas in Firestore
+      snapshot.ref.getDownloadURL().then((downloadURL) => {
+        bnaRef
+          .update({
+            beforeImage: downloadURL,
+          })
+          .then(() => {
+            console.log("Before's Image updated successfully.");
+          })
+          .catch((error) => {
+            console.error("Error updating Before's Image: ", error);
+          });
+      });
+    });
+  }
+
+  if (afterImageFile) {
+    // Create a reference to the file in Firebase Storage
+    let timestamp = new Date().getTime();
+    const storageRef = firebase.storage().ref();
+    const newImageRef = storageRef.child(
+      `images/afterImages/${afterImageFile.name}${timestamp}`
+    );
+
+    // Upload the new image to Firebase Storage
+    newImageRef.put(afterImageFile).then((snapshot) => {
+      console.log(`Uploaded a ${afterImageFile.name} image!`);
+
+      // Delete after's old image from Firebase Storage
+      if (afterImage) {
+        firebase
+          .storage()
+          .refFromURL(afterImage)
+          .delete()
+          .then(() => {
+            console.log(
+              "After's old image deleted successfully from Firebase Storage!"
+            );
+          })
+          .catch((error: any) => {
+            console.log(
+              "Error deleting after's old image from Firebase Storage: ",
+              error
+            );
+          });
+      }
+
+      // Get the download URL of the image and update the bnas in Firestore
+      snapshot.ref.getDownloadURL().then((downloadURL) => {
+        bnaRef
+          .update({
+            afterImage: downloadURL,
+          })
+          .then(() => {
+            console.log("After's Image updated successfully.");
+          })
+          .catch((error) => {
+            console.error("Error updating After's Image: ", error);
+          });
+      });
+    });
+  }
+};
+
+export const deleteBeforeAndAfter = async (bna: BeforeAndAfter) => {
+  const bnaRef = firebase.firestore().collection("bnas").doc(bna.id);
+
+  // Delete before's image from Firebase Storage
+  if (bna.beforeImage) {
+    firebase
+      .storage()
+      .refFromURL(bna.beforeImage)
+      .delete()
+      .then(() => {
+        console.log(
+          "Before's image deleted successfully from Firebase Storage!"
+        );
+      })
+      .catch((error: any) => {
+        console.log(
+          "Error deleting Before image from Firebase Storage: ",
+          error
+        );
+      });
+  }
+
+  // Delete after's image from Firebase Storage
+  if (bna.afterImage) {
+    firebase
+      .storage()
+      .refFromURL(bna.afterImage)
+      .delete()
+      .then(() => {
+        console.log(
+          "After's image deleted successfully from Firebase Storage!"
+        );
+      })
+      .catch((error: any) => {
+        console.log(
+          "Error deleting After image from Firebase Storage: ",
+          error
+        );
+      });
+  }
+
+  // Delete bna from Firestore
+  await bnaRef
+    .delete()
+    .then(() => {
+      console.log("Bna deleted successfully.");
+    })
+    .catch((error: any) => {
+      console.error("Error deleting Bna: ", error);
     });
 };

@@ -14,7 +14,7 @@ const BnACard = ({ beforeImage, afterImage }: Props) => {
     <div
       className={`flex flex-col justify-center items-center w-72 border border-primary rounded-3xl shadow-lg bg-primary/20`}
     >
-      <p className={`py-2 text-primary text-xl font-medium`}>{t("before")}</p>
+      <p className={`py-1 text-primary text-xl font-medium`}>{t("before")}</p>
       <Image
         src={beforeImage}
         alt={t("before")}
@@ -29,7 +29,7 @@ const BnACard = ({ beforeImage, afterImage }: Props) => {
         width={600}
         className={`object-cover h-40 w-72 rounded-b-3xl border-y border-primary`}
       />
-      <p className={`py-2 text-primary text-xl font-medium`}>{t("after")}</p>
+      <p className={`py-1 text-primary text-xl font-medium`}>{t("after")}</p>
     </div>
   );
 };
