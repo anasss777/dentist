@@ -48,6 +48,32 @@ const Sidebar = () => {
           {t("dashboard")}
         </Link>
 
+        {/* Appointments section */}
+        <Link
+          href="/admin/appointments"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/appointments` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("appointments")}
+        </Link>
+
+        {/* Add appointments section */}
+        <Link
+          href="/admin/appointments/add"
+          locale={locale}
+          className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
+            rounded-xl ${
+              currentPage === `/${locale}/admin/appointments/add` &&
+              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
+            }`}
+        >
+          {t("addAppointment")}
+        </Link>
+
         {/* Highlights section */}
         <Link
           href="/admin/highlights"

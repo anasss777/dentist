@@ -91,7 +91,11 @@ export const deleteDocIfDatePassed = async (date: Date, docId: string) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set to midnight to compare only the date part
 
-  if (date < today) {
+  const oneDayAfterDate = new Date(date);
+  oneDayAfterDate.setDate(oneDayAfterDate.getDate() + 1);
+  oneDayAfterDate.setHours(0, 0, 0, 0); // Set to midnight to compare only the date part
+
+  if (oneDayAfterDate < today) {
     const docRef = doc(db, "appointments", docId);
     const docSnapshot = await getDoc(docRef);
 

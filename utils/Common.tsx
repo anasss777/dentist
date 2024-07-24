@@ -20,14 +20,6 @@ export const getDaysUntilAppointment = (
   return dayDifference < 0 ? -1 : dayDifference;
 };
 
-export const splitDateTime = (dateTimeString: string): [string, string] => {
-  // Split the input string by the comma and trim any whitespace
-  const [date, time] = dateTimeString.split(",").map((part) => part.trim());
-
-  // Return the result as a tuple (array with two elements)
-  return [date, time];
-};
-
 export const getDayOfWeek = (date: number, locale: string) => {
   const daysOfWeek: any = {
     en: [

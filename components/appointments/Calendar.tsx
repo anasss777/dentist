@@ -34,7 +34,13 @@ const getDefaultDate = () => {
   return todayDate;
 };
 
-const AppointmentCalendar = () => {
+type Props = {
+  name?: string;
+  email?: string;
+  phoneNumber?: number;
+};
+
+const AppointmentCalendar = ({ name, email, phoneNumber }: Props) => {
   const t = useTranslations("appointments");
   const locale = useLocale();
   const isArabic = locale === "ar";
@@ -109,33 +115,44 @@ const AppointmentCalendar = () => {
 
   const handleConfirmBooking = () => {
     setIsSubmitting(true);
-    if (currentUser) {
-      if (
-        !bookedDates.some(
-          (booking) =>
-            booking.date.toDate() === selectedDate.toDate(getLocalTimeZone()) &&
-            booking.time === selectedTimeSlot
-        ) &&
-        selectedTimeSlot
-      ) {
-        addAppointment({
-          name: currentUser?.name,
-          email: currentUser?.email,
-          phoneNumber: currentUser?.phoneNumber,
-          date: selectedDate.toDate(getLocalTimeZone()),
-          time: selectedTimeSlot,
-          reason: visitReason,
+    if (name && email && phoneNumber) {
+      addAppointment({
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        date: selectedDate.toDate(getLocalTimeZone()),
+        time: selectedTimeSlot,
+        reason: visitReason,
+      })
+        .then(() => {
+          setIsSubmitting(false);
+          toast.success(t("success"));
+          setSelectedTimeSlot("");
         })
-          .then(() => {
-            setIsSubmitting(false);
-            toast.success(t("success"));
-          })
-          .catch((error) => {
-            alert(t("error"));
-            console.log(t("error"), error);
-            setIsSubmitting(false);
-          });
-      }
+        .catch((error) => {
+          alert(t("error"));
+          console.log(t("error"), error);
+          setIsSubmitting(false);
+        });
+    } else if (currentUser) {
+      addAppointment({
+        name: currentUser?.name,
+        email: currentUser?.email,
+        phoneNumber: currentUser?.phoneNumber,
+        date: selectedDate.toDate(getLocalTimeZone()),
+        time: selectedTimeSlot,
+        reason: visitReason,
+      })
+        .then(() => {
+          setIsSubmitting(false);
+          toast.success(t("success"));
+          setSelectedTimeSlot("");
+        })
+        .catch((error) => {
+          alert(t("error"));
+          console.log(t("error"), error);
+          setIsSubmitting(false);
+        });
     }
   };
 

@@ -10,9 +10,10 @@ import { deleteAppointment } from "@/utils/appointment";
 
 type Props = {
   appointment: Appointment;
+  admin?: boolean;
 };
 
-const AppointmentCard = ({ appointment }: Props) => {
+const AppointmentCard = ({ appointment, admin }: Props) => {
   const t = useTranslations("appointments");
   const locale = useLocale();
 
@@ -43,9 +44,15 @@ const AppointmentCard = ({ appointment }: Props) => {
       className={`p-[1.5px] h-fit w-fit rounded-3xl bg-gradient-to-tl from-primary via-transparent to-secondary`}
     >
       <div
-        className={`flex flex-col justify-start items-start gap-3 p-6 w-full min-[350px]:w-80 bg-white dark:bg-gray-800 rounded-3xl
-          shadow-Card2 pb-3`}
+        className={`flex flex-col justify-between items-start gap-3 p-6 w-full min-[350px]:w-80 bg-white dark:bg-gray-800 rounded-3xl
+          shadow-Card2 pb-3 h-[322px]`}
       >
+        {admin && (
+          <p>
+            <span className={`text-primary font-bold`}>{t("name")}: </span>
+            <span className={`text-secondary`}>{appointment.name}</span>
+          </p>
+        )}
         <p>
           <span className={`text-primary font-bold`}>{t("date")}: </span>
           <span className={`text-secondary`}>
@@ -78,10 +85,10 @@ const AppointmentCard = ({ appointment }: Props) => {
           <span className={`text-secondary`}>{appointment.reason}</span>
         </p>
 
-        <div className={`flex justify-center items-center mt-3 w-full`}>
+        <div className={`flex justify-center items-center w-full`}>
           <p
             onClick={handleDeleteAppointment}
-            className={`btn bg-[#d332] border border-[#d33] text-[#d33] hover:px-6`}
+            className={`btn bg-[#d332] border border-[#d33] text-[#d33] hover:px-4 px-3 text-sm`}
           >
             {t("cancelAppointment")}
           </p>

@@ -79,6 +79,21 @@ const Appointments = () => {
     return () => unsubscribe();
   }, [currentUser?.email]);
 
+  const sortedAppointments = bookedDates.sort((a, b) => {
+    const dateDiff = a.date.seconds - b.date.seconds;
+    if (dateDiff !== 0) {
+      return dateDiff;
+    }
+
+    const timeToMinutes = (time: string) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      return hours * 60 + minutes;
+    };
+
+    const timeDiff = timeToMinutes(a.time) - timeToMinutes(b.time);
+    return timeDiff;
+  });
+
   if (!currentUser) {
     return isloading ? (
       <div className={`flex flex-col justify-center items-center gap-10 pt-20`}>
@@ -141,11 +156,9 @@ const Appointments = () => {
         <div
           className={`flex flex-wrap justify-center items-center gap-5 w-full px-5 md:px-10 lg:px-20 xl:px-40 py-10`}
         >
-          {bookedDates
-            // .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
-            .map((booking, index) => (
-              <AppointmentCard key={index} appointment={booking} />
-            ))}
+          {sortedAppointments.map((booking, index) => (
+            <AppointmentCard key={index} appointment={booking} />
+          ))}
         </div>
       ) : (
         <div

@@ -60,7 +60,11 @@
     "confirmPasswordError": "الرجاء التأكد من تطابق كلمة المرور"
   },
   "profile": {
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "manageWebsite": "إدارة الموقع",
+    "upcomingAppointments": "المواعيد القادمة",
+    "noUpcomingAppointments": "لا توجد مواعيد",
+    "bookNow": "إحجز الأن"
   },
   "hero": {
     "tagline": "ابتسامتك هي مهمتنا - احصل على أفضل رعاية أسنان هنا",
@@ -199,6 +203,7 @@
   },
   "appointments": {
     "heading": "المواعيد",
+    "name": "إسم المراجع",
     "visitReason": "سبب الزيارة",
     "confirm": "تأكيد الموعد",
     "submitting": "جاري التأكيد",
@@ -221,7 +226,11 @@
     "yesCancel": "نعم",
     "appointmentDeleted": "تم إلغاء الموعد بنجاح",
     "ok": "حسناً",
-    "appointmentCanceled": "تم إلغاء الموعد"
+    "appointmentCanceled": "تم إلغاء الموعد",
+    "manage": "إدارة",
+    "addAppointment": "إضافة موعد",
+    "email": "البريد الإلكتروني",
+    "phoneNumber": "رقم الهاتف"
   },
   "adminPanel": {
     "dashboard": "ملخص",
@@ -235,7 +244,9 @@
     "faq": "سؤال و جواب",
     "addFaq": "إضافة سؤال",
     "bna": "قبل و بعد",
-    "addBna": "إضافة إلى قبل و بعد"
+    "addBna": "إضافة إلى قبل و بعد",
+    "appointments": "المواعيد",
+    "addAppointment": "إضافة موعد"
   },
   "comments": {
     "commenterName": "الإسم",
