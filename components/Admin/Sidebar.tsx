@@ -4,6 +4,20 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import ThemeSwitcher from "../Common/ThemeSwitcher";
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
+import {
+  svgAddAppointment,
+  svgAdmin,
+  svgAppointment,
+  svgBulb,
+  svgBulbOn,
+  svgCompare,
+  svgOverview,
+  svgQuestion,
+  svgQuestion2,
+  svgThought,
+  svgThought2,
+  svgVideo,
+} from "../svgPaths";
 
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
@@ -16,35 +30,41 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`md:flex flex-col items-center justify-between w-1/5 h-screen sticky shadow-Card py-5 px-2 border-r dark:border-r-gray-600
+      className={`md:flex md:flex-col items-center justify-between w-1/5 h-screen sticky shadow-Card py-3 px-2 border-r dark:border-r-gray-600
       border-r-primary hidden bg-secondary/10 dark:bg-white/10 ${
         isArabic && "border-l dark:border-l-gray-600 border-l-primary"
       }`}
     >
-      <div className={`flex flex-col gap-1 items-center justify-center w-full`}>
-        {/* Logo */}
-        <Link
-          href="/"
-          locale={locale}
-          className={`flex flex-row justify-center items-center gap-1 mb-10`}
+      {/* Logo */}
+      <Link
+        href="/"
+        locale={locale}
+        className={`flex flex-row justify-center items-center gap-1 mb-2`}
+      >
+        <p
+          className={`text-white text-xl bg-primary rounded-xl px-2 border-2 border-white shadow-Card`}
         >
-          <p
-            className={`text-white text-xl bg-primary rounded-xl px-2 border-2 border-white shadow-Card`}
-          >
-            Demo
-          </p>
-        </Link>
-
+          Demo
+        </p>
+      </Link>
+      <div
+        className={`flex flex-col gap-1 items-start justify-start w-full overflow-y-scroll`}
+      >
         {/* dashboard button */}
         <Link
           href="/admin"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-          rounded-xl ${
+          rounded-xl flex flex-row justify-start items-center gap-2 ${
             currentPage === `/${locale}/admin` &&
             "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
           }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgOverview}
+          </span>
           {t("dashboard")}
         </Link>
 
@@ -53,11 +73,16 @@ const Sidebar = () => {
           href="/admin/appointments"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/appointments` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgAppointment}
+          </span>
           {t("appointments")}
         </Link>
 
@@ -66,11 +91,16 @@ const Sidebar = () => {
           href="/admin/appointments/add"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/appointments/add` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgAddAppointment}
+          </span>
           {t("addAppointment")}
         </Link>
 
@@ -79,11 +109,16 @@ const Sidebar = () => {
           href="/admin/highlights"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/highlights` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgVideo}
+          </span>
           {t("highlights")}
         </Link>
 
@@ -92,11 +127,16 @@ const Sidebar = () => {
           href="/admin/tips"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/tips` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgBulb}
+          </span>
           {t("tips")}
         </Link>
 
@@ -105,11 +145,16 @@ const Sidebar = () => {
           href="/admin/tips/add"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/tips/add` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgBulbOn}
+          </span>
           {t("addTip")}
         </Link>
 
@@ -118,11 +163,16 @@ const Sidebar = () => {
           href="/admin/testimonials"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/testimonials` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgThought2}
+          </span>
           {t("testimonials")}
         </Link>
 
@@ -131,11 +181,16 @@ const Sidebar = () => {
           href="/admin/testimonials/add"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/testimonials/add` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgThought}
+          </span>
           {t("addTestimonials")}
         </Link>
 
@@ -144,11 +199,16 @@ const Sidebar = () => {
           href="/admin/faq"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/faq` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgQuestion}
+          </span>
           {t("faq")}
         </Link>
 
@@ -157,11 +217,16 @@ const Sidebar = () => {
           href="/admin/faq/add"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/faq/add` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgQuestion2}
+          </span>
           {t("addFaq")}
         </Link>
 
@@ -170,11 +235,16 @@ const Sidebar = () => {
           href="/admin/before-and-after"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/before-and-after` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgCompare}
+          </span>
           {t("bna")}
         </Link>
 
@@ -183,32 +253,44 @@ const Sidebar = () => {
           href="/admin/before-and-after/add"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
               currentPage === `/${locale}/admin/before-and-after/add` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgCompare}
+          </span>
           {t("addBna")}
         </Link>
 
-        {/* Reports section */}
-        {/* <Link
-          href="/admin/reports"
+        {/* Manage section */}
+        <Link
+          href="/admin/manage"
           locale={locale}
           className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl ${
-              currentPage === `/${locale}/admin/reports` &&
+            rounded-xl flex flex-row justify-start items-center gap-2 ${
+              currentPage === `/${locale}/admin/manage` &&
               "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
             }`}
         >
-          {t("reports")}
-        </Link> */}
+          <span
+            className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
+          >
+            {svgAdmin}
+          </span>
+          {t("manage")}
+        </Link>
       </div>
 
-      <div
-        className={`p-[6px] w-fit h-fit rounded-full mx-auto flex justify-center bg-primary/50`}
-      >
-        <ThemeSwitcher />
+      <div className={`mt-2`}>
+        <span
+          className={`p-[6px] w-fit h-fit rounded-full mx-auto flex justify-center bg-primary/50`}
+        >
+          <ThemeSwitcher />
+        </span>
       </div>
     </div>
   );

@@ -10,7 +10,6 @@ import { Appointment } from "@/types/appointment";
 import { Profile } from "@/types/profile";
 import Loading from "@/components/Common/Loading";
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
-import { deleteDocIfDatePassed } from "@/utils/appointment";
 
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
@@ -63,9 +62,6 @@ const Appointments = () => {
             id: doc.id,
             ...appointmentData,
           } as Appointment);
-
-          // Call deleteDocIfDatePassed for each document
-          deleteDocIfDatePassed(appointmentData.date.toDate(), doc.id);
         });
 
         const userBookedDates = newAppointment.filter(

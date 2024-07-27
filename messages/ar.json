@@ -234,11 +234,18 @@
   },
   "adminPanel": {
     "dashboard": "ملخص",
+    "image": "صورة المستخدم",
+    "name": "إسم المستخدم",
+    "email": "البريد الإلكتروني",
+    "phoneNumber": "رقم الهاتف",
+    "gender": "الجنس",
+    "country": "الدولة",
     "home": "الصفحة الرئيسية",
     "highlights": "مقتطفات",
     "tips": "نصائح عامة",
     "addTip": "إضافة نصيحة",
     "reports": "التبليغات",
+    "manage": "إدارة",
     "testimonials": "آراء المراجعيين",
     "addTestimonials": "إضافة رأي مراجع",
     "faq": "سؤال و جواب",
@@ -246,7 +253,9 @@
     "bna": "قبل و بعد",
     "addBna": "إضافة إلى قبل و بعد",
     "appointments": "المواعيد",
-    "addAppointment": "إضافة موعد"
+    "addAppointment": "إضافة موعد",
+    "upcomingAppointments": "المواعيد القادمة",
+    "showMore": "رؤية المزيد"
   },
   "comments": {
     "commenterName": "الإسم",
