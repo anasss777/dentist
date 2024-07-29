@@ -51,7 +51,7 @@ function LocaleSwitcher() {
         </Link>
 
         {/* Turkish Option */}
-        <Link
+        {/* <Link
           href={pathname}
           locale="tr"
           className={`lg:contrast-[95%] hover:contrast-125 rounded py-2 px-3 text-sm hover:opacity-50 w-full flex flex-row justify-center
@@ -61,7 +61,7 @@ function LocaleSwitcher() {
         >
           <span>{svgTurkey}</span>
           <p>Türkçe</p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

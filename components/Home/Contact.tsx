@@ -58,7 +58,7 @@ const Contact = () => {
             className={`text-base md:text-lg font-extralight text-gray-400 dark:text-white dark:group-hover:text-secondary
               group-hover:text-secondary transition-all duration-300 ease-linear cursor-pointer ltr`}
           >
-            +90123456789
+            +21612345678
           </p>
         </a>
 

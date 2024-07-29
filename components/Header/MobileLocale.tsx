@@ -30,13 +30,13 @@ const MobileLocale = () => {
       </Link>
 
       {/* Turkish Option */}
-      <Link
+      {/* <Link
         href={pathname}
         locale="tr"
         className={`${locale === "tr" && "hidden"}`}
       >
         {svgTurkey}
-      </Link>
+      </Link> */}
     </div>
   );
 };
