@@ -9,4 +9,5 @@ export type Profile = {
   phoneNumber: number;
   gender: string;
   country: string;
+  isAdmin: boolean;
 };

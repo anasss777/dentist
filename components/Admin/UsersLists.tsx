@@ -32,12 +32,13 @@ const UsersList = ({ members }: Props) => {
             <th className={`p-2`}>{t("email")}</th>
             <th className={`p-2`}>{t("phoneNumber")}</th>
             <th className={`p-2`}>{t("gender")}</th>
+            <th className={`p-2`}>{t("country")}</th>
             <th
               className={`p-2 ${
                 isArabic ? "rounded-l-full" : "rounded-r-full"
               }`}
             >
-              {t("country")}
+              {t("admin")}
             </th>
           </tr>
 

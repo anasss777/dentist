@@ -7,15 +7,16 @@ import {
   svgDefaultImageSmaller,
   svgLoadingWhite,
 } from "@/components/svgPaths";
-import { useStateContext } from "@/context/stateContext";
 import { BeforeAndAfter } from "@/types/beforeAndAfter";
 import { editBeforeAndAfter } from "@/utils/home";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import NoAccess from "@/components/Admin/NoAccess";
+import { Profile } from "@/types/profile";
 
 type Props = {
   params: { bna: string };
@@ -24,16 +25,17 @@ type Props = {
 const EditBeforeAndAfter = ({ params }: Props) => {
   const id = params.bna;
   const [bna, setBna] = useState<BeforeAndAfter | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingBna, setLoadingBna] = useState(true);
   const t = useTranslations("bna");
   const [beforeImageFile, setBeforeImageFile] = useState<File>();
   const [beforeImage, setBeforeImage] = useState<string>();
   const [afterImageFile, setAfterImageFile] = useState<File>();
   const [afterImage, setAfterImage] = useState<string>();
   const [isPosting, setIsPosting] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
-
-  const { isAdmin } = useStateContext();
+  const locale = useLocale();
 
   const handleBeforeImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,7 +72,7 @@ const EditBeforeAndAfter = ({ params }: Props) => {
           setBna(bna);
           setBeforeImage(bna.beforeImage);
           setAfterImage(bna.afterImage);
-          setLoading(false);
+          setLoadingBna(false);
         }
       });
 
@@ -78,7 +80,54 @@ const EditBeforeAndAfter = ({ params }: Props) => {
     return () => unsubscribe();
   }, [id]);
 
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
   if (loading) {
+    return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
+  }
+
+  if (loadingBna) {
     return (
       <div
         className={`flex flex-col justify-center items-center pb-20 pt-10 px-2 md:px-10 lg:px-20`}
@@ -90,10 +139,6 @@ const EditBeforeAndAfter = ({ params }: Props) => {
 
   if (!bna) {
     return <p>No data found.</p>;
-  }
-
-  if (!isAdmin) {
-    return <Loading />;
   }
 
   return (

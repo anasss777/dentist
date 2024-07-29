@@ -46,6 +46,7 @@ export const handleSignUp = async ({
         phoneNumber,
         gender,
         country,
+        isAdmin: false,
       });
 
     console.log("Account created successfully.");
@@ -76,6 +77,7 @@ export const handleSignUpWithGoogle = async () => {
         phoneNumber: 0,
         gender: "",
         country: "",
+        isAdmin: false,
       });
       return user;
     }
@@ -169,4 +171,19 @@ export const handleSignOut = async () => {
     console.error("Error signing out: ", error);
     return false;
   }
+};
+
+export const toggleAdmin = async (id: string, isAdmin: boolean) => {
+  const profileRef = firebase.firestore().collection("profiles").doc(id);
+
+  profileRef
+    .update({
+      isAdmin: isAdmin,
+    })
+    .then(() => {
+      console.log("isAdmin updated successfully.");
+    })
+    .catch((error) => {
+      console.error("Error updating isAdmin: ", error);
+    });
 };

@@ -4,12 +4,10 @@ import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import firebase from "@/firebase";
 import { svgAdd, svgSearch } from "../svgPaths";
-import { useStateContext } from "@/context/stateContext";
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
 import { Tip } from "@/types/tips";
 import { searchTips } from "@/utils/searchTips";
 import TipsRow from "./TipsRow";
-import Loading from "../Common/Loading";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
 
@@ -19,7 +17,6 @@ const TipsList = () => {
   const t = useTranslations("tips");
   const [tips, setTips] = useState<Tip[]>([]);
   const [searchedTips, setSearchedTips] = useState<Tip[]>([]);
-  const { isAdmin } = useStateContext();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -41,10 +38,6 @@ const TipsList = () => {
     // Unsubscribe from Firestore listener when component unmounts
     return () => unsubscribe();
   }, []);
-
-  if (!isAdmin) {
-    return <Loading />;
-  }
 
   return (
     <div className={`w-full ${isArabic && "rtl"}`}>

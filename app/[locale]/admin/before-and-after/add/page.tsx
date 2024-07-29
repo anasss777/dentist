@@ -1,19 +1,21 @@
 "use client";
 
+import firebase from "@/firebase";
 import Loading from "@/components/Common/Loading";
 import {
   svgAddImage,
   svgDefaultImageSmaller,
   svgLoadingWhite,
 } from "@/components/svgPaths";
-import { useStateContext } from "@/context/stateContext";
+import { Profile } from "@/types/profile";
 import { addBeforeAndAfter } from "@/utils/home";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NoAccess from "@/components/Admin/NoAccess";
 
 const AddBeforeAndAfter = () => {
   const t = useTranslations("bna");
@@ -22,8 +24,10 @@ const AddBeforeAndAfter = () => {
   const [afterImageFile, setAfterImageFile] = useState<File>();
   const [afterImage, setAfterImage] = useState<string>();
   const [isPosting, setIsPosting] = useState(false);
-  const { isAdmin } = useStateContext();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const locale = useLocale();
 
   const handleBeforeImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,8 +45,51 @@ const AddBeforeAndAfter = () => {
     }
   };
 
-  if (!isAdmin) {
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
+  if (loading) {
     return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
   }
 
   return (

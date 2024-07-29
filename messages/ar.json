@@ -255,7 +255,10 @@
     "appointments": "المواعيد",
     "addAppointment": "إضافة موعد",
     "upcomingAppointments": "المواعيد القادمة",
-    "showMore": "رؤية المزيد"
+    "showMore": "رؤية المزيد",
+    "admin": "إداري",
+    "noAccess": "لا يمكنك الوصول إلى هذه الصفحة. يرجى الاتصال بالمسؤول للحصول على إذن الوصول.",
+    "searchUsers": "إبحث عن مستخدم بالبريد الإلكتروني"
   },
   "comments": {
     "commenterName": "الإسم",

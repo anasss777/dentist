@@ -8,8 +8,10 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { editHighlightSection } from "@/utils/home";
-import { useStateContext } from "@/context/stateContext";
 import Loading from "@/components/Common/Loading";
+import { useRouter } from "next/navigation";
+import { Profile } from "@/types/profile";
+import NoAccess from "@/components/Admin/NoAccess";
 
 type Highlight = {
   link1: string;
@@ -25,7 +27,9 @@ const HighlightsAdmin = () => {
   const [link2, setLink2] = useState("");
   const [link3, setLink3] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { isAdmin } = useStateContext();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -46,8 +50,51 @@ const HighlightsAdmin = () => {
     return () => unsubscribe();
   }, []);
 
-  if (!isAdmin) {
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
+  if (loading) {
     return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
   }
 
   return (

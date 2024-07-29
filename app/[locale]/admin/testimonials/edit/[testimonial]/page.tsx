@@ -3,15 +3,16 @@
 import firebase from "@/firebase";
 import { svgLoadingWhite } from "@/components/svgPaths";
 import TestimonialCard from "@/components/Testimonial/TestimonialCard";
-import { useStateContext } from "@/context/stateContext";
 import { Testimonial } from "@/types/testimonial";
 import { editTestimonial } from "@/utils/home";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "@/components/Common/Loading";
 import { useRouter } from "next/navigation";
+import { Profile } from "@/types/profile";
+import NoAccess from "@/components/Admin/NoAccess";
 
 type Props = {
   params: { testimonial: string };
@@ -23,10 +24,12 @@ const EditTestimonialAdmin = ({ params }: Props) => {
   const [giver, setGiver] = useState("");
   const [testimonial, setTestimonial] = useState<Testimonial | null>(null);
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loadingTestimonial, setLoadingTestimonial] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
-  const { isAdmin } = useStateContext();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const locale = useLocale();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -49,7 +52,7 @@ const EditTestimonialAdmin = ({ params }: Props) => {
           setTestimonial(testimonial);
           setGiver(testimonial.giver);
           setContent(testimonial.content);
-          setLoading(false);
+          setLoadingTestimonial(false);
         }
       });
 
@@ -57,7 +60,54 @@ const EditTestimonialAdmin = ({ params }: Props) => {
     return () => unsubscribe();
   }, [id]);
 
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
   if (loading) {
+    return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
+  }
+
+  if (loadingTestimonial) {
     return (
       <div
         className={`flex flex-col justify-center items-center pb-20 pt-10 px-2 md:px-10 lg:px-20`}
@@ -69,10 +119,6 @@ const EditTestimonialAdmin = ({ params }: Props) => {
 
   if (!testimonial) {
     return <p>No testimonial found.</p>;
-  }
-
-  if (!isAdmin) {
-    return <Loading />;
   }
 
   return (

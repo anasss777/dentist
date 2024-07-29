@@ -13,6 +13,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { timeSlots } from "@/components/appointments/timeSlot";
 import { svgLoadingWhite } from "@/components/svgPaths";
+import Loading from "@/components/Common/Loading";
+import NoAccess from "@/components/Admin/NoAccess";
+import { useRouter } from "next/navigation";
 
 const isDateUnavailable = (date: DateValue) => {
   return (
@@ -43,10 +46,12 @@ const AddAppointmentAdmin = () => {
   const [visitReason, setVisitReason] = useState("");
   const [bookedDates, setBookedDates] = useState<Appointment[]>([]);
   const [currentUser, setCurrentUser] = useState<Profile>();
+  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const t = useTranslations("appointments");
   const locale = useLocale();
   const isArabic = locale === "ar";
+  const router = useRouter();
 
   const reasonData = [
     "فحص وتنظيف روتيني",
@@ -63,32 +68,6 @@ const AddAppointmentAdmin = () => {
     "مشاكل جفاف الفم",
     "الحفاظ على صحة الفم العامة",
   ];
-
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const docRef = firebase
-          .firestore()
-          .collection("profiles")
-          .doc(user.uid);
-        docRef
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              setCurrentUser(doc.data() as Profile);
-            } else {
-              console.log("No such document!");
-            }
-          })
-          .catch((error) => {
-            console.log("Error getting document:", error);
-          });
-      }
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -152,6 +131,53 @@ const AddAppointmentAdmin = () => {
         });
     }
   };
+
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setCurrentUser({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!currentUser?.isAdmin) {
+    return <NoAccess />;
+  }
 
   return (
     <>

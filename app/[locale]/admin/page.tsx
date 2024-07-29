@@ -23,13 +23,16 @@ import { Faq } from "@/types/faq";
 import { BeforeAndAfter } from "@/types/beforeAndAfter";
 import Loading from "@/components/Common/Loading";
 import AppointmentCard from "../(site)/appointments/AppointmentCard";
+import { useRouter } from "next/navigation";
+import NoAccess from "@/components/Admin/NoAccess";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
 
 const Overview = () => {
   const locale = useLocale();
   const t = useTranslations("adminPanel");
-  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [tips, setTips] = useState<Tip[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -38,6 +41,7 @@ const Overview = () => {
   const [shownAppointments, setShownAppointments] = useState(3);
   const [isloading, setIsloading] = useState(true);
   const { isAdmin } = useStateContext();
+  const router = useRouter();
 
   const sortedAppointments = appointments.sort((a, b) => {
     const dateDiff = a.date.seconds - b.date.seconds;
@@ -53,26 +57,6 @@ const Overview = () => {
     const timeDiff = timeToMinutes(a.time) - timeToMinutes(b.time);
     return timeDiff;
   });
-
-  useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection("profiles")
-      .onSnapshot((snapshot) => {
-        const newProfiles: Profile[] = [];
-        snapshot?.forEach((doc) => {
-          newProfiles.push({
-            userId: doc.id,
-            ...doc.data(),
-          } as Profile);
-        });
-
-        setProfiles(newProfiles);
-      });
-
-    // Unsubscribe from Firestore listener when component unmounts
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -179,13 +163,58 @@ const Overview = () => {
     return () => unsubscribe();
   }, []);
 
-  if (!isAdmin) {
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const docRef = firebase
+          .firestore()
+          .collection("profiles")
+          .doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
+  if (loading) {
     return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
   }
 
   return (
     <div
-      className={`flex flex-col gap-10 w-full h-screen pb-10 pt-24 overflow-y-auto`}
+      className={`flex flex-col gap-10 w-full h-screen pt-24 overflow-y-auto`}
     >
       {/* Overview */}
       <div
@@ -290,7 +319,7 @@ const Overview = () => {
 
       {/* Upcoming appointments */}
       <div
-        className={`flex flex-col justify-center items-center gap-10 w-full my-20 py-20 px-10 bg-third dark:bg-third/5 border-y
+        className={`flex flex-col justify-center items-center gap-10 w-full mt-20 py-20 px-10 bg-third dark:bg-third/5 border-y
           dark:border-none`}
       >
         <p className={`text-primary text-2xl md:text-4xl font-bold`}>
@@ -342,11 +371,6 @@ const Overview = () => {
             </p>
           )}
         </div>
-      </div>
-
-      {/* Users */}
-      <div className={`w-full px-10`}>
-        <UsersList members={profiles} />
       </div>
     </div>
   );

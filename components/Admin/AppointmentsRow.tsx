@@ -58,15 +58,6 @@ const AppointmentsRow = ({ appointment }: Props) => {
       <td
         className={`flex flex-row justify-center items-center gap-1 text-gray-400 py-[35px]`}
       >
-        {/* <Link
-          href={`/admin/appointments/edit/${appointment.id}`}
-          locale={locale}
-          target="_blank"
-          className={`bg-primary/20 border border-primary p-1 rounded-md`}
-        >
-          {svgEdit}
-        </Link> */}
-
         <button
           onClick={handleDeleteAppointment}
           className={`bg-primary/20 border border-primary p-1 rounded-md`}

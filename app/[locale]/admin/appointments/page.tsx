@@ -1,7 +1,6 @@
 "use client";
 
 import firebase from "@/firebase";
-import { useStateContext } from "@/context/stateContext";
 import { Appointment } from "@/types/appointment";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
@@ -11,6 +10,9 @@ import { svgAdd } from "@/components/svgPaths";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AppointmentsRow from "@/components/Admin/AppointmentsRow";
+import { useRouter } from "next/navigation";
+import { Profile } from "@/types/profile";
+import NoAccess from "@/components/Admin/NoAccess";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
 
@@ -19,7 +21,9 @@ const AppointmentsAdmin = () => {
   const isArabic = locale === "ar";
   const t = useTranslations("appointments");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const { isAdmin } = useStateContext();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const sortedAppointments = appointments.sort((a, b) => {
     const dateDiff = a.date.seconds - b.date.seconds;
@@ -56,8 +60,51 @@ const AppointmentsAdmin = () => {
     return () => unsubscribe();
   }, []);
 
-  if (!isAdmin) {
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
+  if (loading) {
     return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
   }
 
   return (

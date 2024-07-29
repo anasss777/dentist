@@ -14,12 +14,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Image from "next/image";
 import parse from "html-react-parser";
-import { useStateContext } from "@/context/stateContext";
 import { Tip } from "@/types/tips";
 import Loading from "@/components/Common/Loading";
 import { EditTip } from "@/utils/tip";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Profile } from "@/types/profile";
+import NoAccess from "@/components/Admin/NoAccess";
 
 type Props = {
   params: { tip: string };
@@ -28,7 +29,7 @@ type Props = {
 const Page = ({ params }: Props) => {
   const id = params.tip;
   const [tip, setTip] = useState<Tip | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingTips, setLoadingTips] = useState(true);
   const t = useTranslations("tips");
   const locale = useLocale();
   const isArabic = locale === "ar";
@@ -39,7 +40,8 @@ const Page = ({ params }: Props) => {
   const [content, setContent] = useState<string>("");
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
-  const { isAdmin } = useStateContext();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   let toolbarOptions = [
     [{ header: [1, 2, false] }],
@@ -81,7 +83,7 @@ const Page = ({ params }: Props) => {
           setImageUrl(tip.tipImage);
           setTipTitle(tip.tipTitle);
           setContent(tip.content);
-          setLoading(false);
+          setLoadingTips(false);
         }
       });
 
@@ -89,7 +91,54 @@ const Page = ({ params }: Props) => {
     return () => unsubscribe();
   }, [id]);
 
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
   if (loading) {
+    return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
+  }
+
+  if (loadingTips) {
     return (
       <div
         className={`flex flex-col justify-center items-center pb-20 pt-10 px-2 md:px-10 lg:px-20 ${
@@ -103,10 +152,6 @@ const Page = ({ params }: Props) => {
 
   if (!tip) {
     return <p>No tip found.</p>;
-  }
-
-  if (!isAdmin) {
-    return <Loading />;
   }
 
   return (

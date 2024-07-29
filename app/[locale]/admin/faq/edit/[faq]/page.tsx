@@ -3,14 +3,15 @@
 import firebase from "@/firebase";
 import Loading from "@/components/Common/Loading";
 import { svgLoadingWhite } from "@/components/svgPaths";
-import { useStateContext } from "@/context/stateContext";
 import { Faq } from "@/types/faq";
-import { addFaq, editFaq } from "@/utils/home";
-import { useTranslations } from "next-intl";
+import { editFaq } from "@/utils/home";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import NoAccess from "@/components/Admin/NoAccess";
+import { Profile } from "@/types/profile";
 
 type Props = {
   params: { faq: string };
@@ -22,10 +23,12 @@ const EditFaqAdmin = ({ params }: Props) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [faq, setFaq] = useState<Faq | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingFaq, setLoadingFaq] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
-  const { isAdmin } = useStateContext();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const locale = useLocale();
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -46,7 +49,7 @@ const EditFaqAdmin = ({ params }: Props) => {
           setFaq(faq);
           setQuestion(faq.question);
           setAnswer(faq.answer);
-          setLoading(false);
+          setLoadingFaq(false);
         }
       });
 
@@ -54,7 +57,54 @@ const EditFaqAdmin = ({ params }: Props) => {
     return () => unsubscribe();
   }, [id]);
 
+  useEffect(() => {
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = firebase.firestore();
+        const docRef = db.collection("profiles").doc(user.uid);
+
+        const unsubscribeProfile = docRef.onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              setProfile({
+                userId: doc.id,
+                ...doc.data(),
+              } as Profile);
+            } else {
+              console.log("No such profile!");
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.log("Error getting profile:", error);
+            setLoading(false);
+          }
+        );
+
+        // Cleanup function to unsubscribe from the snapshot listener
+        return () => {
+          unsubscribeProfile();
+          unsubscribeAuth();
+        };
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        router.push(`/${locale}/sign-up`);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the auth listener
+    return () => unsubscribeAuth();
+  }, [locale, router]);
+
   if (loading) {
+    return <Loading />;
+  }
+
+  if (!profile?.isAdmin) {
+    return <NoAccess />;
+  }
+
+  if (loadingFaq) {
     return (
       <div
         className={`flex flex-col justify-center items-center pb-20 pt-10 px-2 md:px-10 lg:px-20`}
@@ -66,10 +116,6 @@ const EditFaqAdmin = ({ params }: Props) => {
 
   if (!faq) {
     return <p>No faq found.</p>;
-  }
-
-  if (!isAdmin) {
-    return <Loading />;
   }
 
   return (

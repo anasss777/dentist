@@ -109,10 +109,10 @@ export const EditTip = async ({
             tipImage: downloadURL,
           })
           .then(() => {
-            console.log("Profile updated successfully.");
+            console.log("tipImage updated successfully.");
           })
           .catch((error) => {
-            console.error("Error updating profile: ", error);
+            console.error("Error updating tipImage: ", error);
           });
       });
     });
