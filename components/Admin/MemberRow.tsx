@@ -49,7 +49,9 @@ const MemberRow = ({ member }: Props) => {
       <td className={`text-gray-400 text-center py-3`}>{member.name}</td>
       <td className={`text-gray-400 text-center py-3`}>{member.email}</td>
       <td className={`text-gray-400 text-center py-3`}>
-        {member.phoneNumber === 0 ? "-" : member.phoneNumber}
+        {member.phoneNumber === 0 || !member.phoneNumber
+          ? "-"
+          : member.phoneNumber}
       </td>
       <td className={`text-gray-400 text-center py-3`}>
         {member.gender ? member.gender : "-"}

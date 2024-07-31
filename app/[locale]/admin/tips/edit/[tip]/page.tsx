@@ -224,7 +224,7 @@ const Page = ({ params }: Props) => {
           </div>
 
           <Image
-            src={imageUrl.length > 0 ? imageUrl : "/images/testing.png"}
+            src={imageUrl?.length > 0 ? imageUrl : "/images/testing.png"}
             alt="Tip image"
             height={1000}
             width={1000}
