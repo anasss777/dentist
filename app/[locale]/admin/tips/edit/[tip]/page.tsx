@@ -223,19 +223,13 @@ const Page = ({ params }: Props) => {
             </span>
           </div>
 
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt="Tip image"
-              height={1000}
-              width={1000}
-              className={`object-cover h-96 w-full rounded-xl border border-primary shadow-lg mb-8 flex justify-center`}
-            />
-          ) : (
-            <span className={`flex h-fit w-fit mx-auto mb-8`}>
-              {svgDefaultImage}
-            </span>
-          )}
+          <Image
+            src={imageUrl.length > 0 ? imageUrl : "/images/testing.png"}
+            alt="Tip image"
+            height={1000}
+            width={1000}
+            className={`object-cover h-96 w-full rounded-xl border border-primary shadow-lg mb-8 flex justify-center`}
+          />
 
           <div className="quill-content">{parse(content)}</div>
         </div>

@@ -1,6 +1,7 @@
 import firebase from "@/firebase";
 import { doc, deleteDoc, getFirestore, getDoc } from "firebase/firestore";
 import { Appointment } from "@/types/appointment";
+import { getDaysUntilAppointment } from "./Common";
 
 type Props = {
   name: string;
@@ -89,13 +90,12 @@ export const deleteAppointment = async (appointment: Appointment) => {
 export const deleteDocIfDatePassed = async (date: Date, docId: string) => {
   const db = getFirestore();
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Set to midnight to compare only the date part
+  const daysUntilAppointment = getDaysUntilAppointment(
+    date.toString(),
+    today.toString()
+  );
 
-  const oneDayAfterDate = new Date(date);
-  oneDayAfterDate.setDate(oneDayAfterDate.getDate() + 1);
-  oneDayAfterDate.setHours(0, 0, 0, 0); // Set to midnight to compare only the date part
-
-  if (oneDayAfterDate < today) {
+  if (daysUntilAppointment < 0) {
     const docRef = doc(db, "appointments", docId);
     const docSnapshot = await getDoc(docRef);
 

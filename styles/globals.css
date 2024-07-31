@@ -105,3 +105,70 @@
 .animate-one-spin {
     animation: one-spin 1s linear;
 }
+
+/* Rich Text Decoration */
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+p {
+    font-size: 16px;
+}
+
+li {
+    font-size: 16px;
+    margin: 0 70px;
+}
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 30px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+
+    li {
+        margin: 0 50px;
+    }
+
+    .bg-custom-postion {
+        background-position: 35% 60%;
+    }
+}
+
+@media (min-width: 1024px) {
+    h1 {
+        font-size: 36px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    li {
+        font-size: 18px;
+        margin: 0 70px;
+    }
+}
+
+ul li {
+    list-style-type: disc;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+.ql-align-center {
+    text-align: center;
+}

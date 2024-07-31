@@ -55,16 +55,16 @@ const SignIn = () => {
       userInfo.email.length >= 5 &&
       userInfo.email.includes("@") &&
       userInfo.email.includes(".") &&
-      userInfo.password.length > 8
+      userInfo.password.length >= 8
     ) {
       setIsLoading(true);
 
-      const fetchUser = handleSignIn(userInfo.email, userInfo.password);
-      if ((await fetchUser) === null) {
+      const fetchUser = await handleSignIn(userInfo.email, userInfo.password);
+      if (fetchUser === null) {
         setPasswordError2(t("passwordError2"));
         setIsLoading(false);
       }
-      setUser(await fetchUser);
+      setUser(fetchUser);
     }
     if (
       !userInfo.email.includes("@") ||
@@ -79,11 +79,11 @@ const SignIn = () => {
   };
 
   const handleSubmitWithGoogle = async () => {
-    const fetchUser = handleSignInWithGoogle();
-    if ((await fetchUser) === null) {
+    const fetchUser = await handleSignInWithGoogle();
+    if (fetchUser === null) {
       alert(t("notRegistered"));
     }
-    setUser(await fetchUser);
+    setUser(fetchUser);
   };
 
   if (user) {
@@ -160,7 +160,7 @@ const SignIn = () => {
 
           <button
             onClick={handleSubmit}
-            className={`btn bg-primary shadow-lg flex flex-row justify-center items-center gap-2`}
+            className={`btn bg-primary shadow-lg flex flex-row justify-center items-center gap-2 hover:px-6`}
           >
             {t("signIn")}
             <span className={`${!isLoading && "hidden"}`}>
@@ -179,7 +179,7 @@ const SignIn = () => {
 
           <div
             onClick={handleSubmitWithGoogle}
-            className={`btn bg-secondary cursor-pointer flex flex-row gap-1 items-center`}
+            className={`btn bg-secondary cursor-pointer flex flex-row gap-1 items-center hover:px-6`}
           >
             <span className={`bg-white p-1 rounded-full shadow-Card`}>
               {svgGoogle}

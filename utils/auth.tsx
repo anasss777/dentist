@@ -141,22 +141,23 @@ export const handleSignInWithGoogle = async () => {
         return user;
       } else {
         console.log("No such document! \n Creating one...");
-        await db.collection("profiles").doc(user.uid).set(
-          {
-            name: user.displayName,
-            email: user.email,
-          },
-          { merge: true }
-        );
+        await db
+          .collection("profiles")
+          .doc(user.uid)
+          .set(
+            {
+              name: user.displayName,
+              email: user.email,
+              profileImage: user.photoURL ? user.photoURL : "",
+            },
+            { merge: true }
+          );
 
         location.reload();
       }
     }
   } catch (error: any) {
-    // Handle Errors here
-    const errorCode: string = error.code;
-    const errorMessage: string = error.message;
-    console.log(errorCode, errorMessage);
+    console.log(error.code, error.message);
     return null;
   }
 };

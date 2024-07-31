@@ -7,12 +7,19 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { handleSignOut } from "@/utils/auth";
-import { svgLoadingWhite, svgUserDark } from "@/components/svgPaths";
+import {
+  svgEdit,
+  svgLoadingWhite,
+  svgUserDarkBig,
+} from "@/components/svgPaths";
 import Image from "next/image";
 import { useStateContext } from "@/context/stateContext";
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
 import { Appointment } from "@/types/appointment";
 import AppointmentCard from "../appointments/AppointmentCard";
+import Popup from "reactjs-popup";
+import EditProfile from "@/components/Profile/EditProfile";
+import { countries } from "@/components/countries";
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
 
@@ -29,7 +36,13 @@ const ProfilePage = ({ params }: Props) => {
   const [loading, setLoading] = useState(true);
   const [signingOut, setSigningOut] = useState(false);
   const [bookedDates, setBookedDates] = useState<Appointment[]>([]);
+  const [openEditProfile, setOpenEditProfile] = useState(false);
   const { isAdmin } = useStateContext();
+
+  const dialNumber = countries.find(
+    (item) =>
+      item.countryAr === profile?.country || item.countryEn === profile?.country
+  );
 
   const sortedAppointments = bookedDates.sort((a, b) => {
     const dateDiff = a.date.seconds - b.date.seconds;
@@ -116,35 +129,71 @@ const ProfilePage = ({ params }: Props) => {
     <div
       className={`flex flex-col justify-center items-center gap-2 py-20 px-10 lg:px-32`}
     >
-      <div
-        className={`flex flex-col justify-center items-center md:flex-row md:justify-start md:items-start md:gap-5`}
-      >
+      <div className={`flex flex-col justify-center items-center gap-5`}>
         {/* Profile image */}
         <div className={`pt-3`}>
           {/* <ProfileImage profile={profile} /> */}
           {profile.profileImage ? (
-            <Image src={profile.profileImage} alt={""} />
+            <Image
+              src={profile.profileImage}
+              alt={""}
+              height={500}
+              width={500}
+              className={`object-cover h-[100px] w-[100px] rounded-full border-2 border-secondary shadow-lg`}
+            />
           ) : (
-            <span>{svgUserDark}</span>
+            <span>{svgUserDarkBig}</span>
           )}
         </div>
 
         {/* User info */}
         <div
-          className={`flex flex-col justify-center items-center md:justify-start md:items-start gap-2 text-sm font-light`}
+          className={`flex flex-col justify-center items-center gap-2 text-sm font-light`}
         >
           <p className={`font-bold text-primary`}>{`${profile.name}`}</p>
           <p className={`font-extralight`}>{`${profile?.email}`}</p>
           <p className={`font-extralight`}>{`${profile?.country}`}</p>
-          <p className={`font-extralight`}>{`${profile?.phoneNumber}`}</p>
+          <p
+            className={`font-extralight ltr`}
+          >{`+${dialNumber?.phone} ${profile?.phoneNumber}`}</p>
         </div>
+
+        {/* Edit button */}
+        <Popup
+          trigger={
+            <div
+              className={`flex flex-row justify-center items-center gap-2 bg-primary/20 dark:bg-primary/10 btn border border-primary
+          hover:px-6`}
+            >
+              <span>{svgEdit}</span>
+              <p className={`text-primary text-sm`}>{t("edit")}</p>
+            </div>
+          }
+          open={openEditProfile}
+          onOpen={() => setOpenEditProfile(!openEditProfile)}
+          modal
+          nested
+          lockScroll
+          overlayStyle={{
+            background: "#000000cc",
+          }}
+          contentStyle={{
+            width: "90%",
+          }}
+        >
+          <EditProfile
+            openEditProfile={openEditProfile}
+            setOpenEditProfile={setOpenEditProfile}
+            profile={profile}
+          />
+        </Popup>
       </div>
 
       {isAdmin && (
         <Link
           href="/admin"
           locale={locale}
-          className={`btn bg-primary shadow-lg flex flex-row justify-center items-center gap-2 hover:px-6`}
+          className={`btn bg-primary shadow-lg flex flex-row justify-center items-center gap-2 hover:px-6 mt-5`}
         >
           {t("manageWebsite")}
         </Link>
