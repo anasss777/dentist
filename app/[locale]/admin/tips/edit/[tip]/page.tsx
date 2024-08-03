@@ -21,6 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Profile } from "@/types/profile";
 import NoAccess from "@/components/Admin/NoAccess";
+import { Tab, Tabs } from "@nextui-org/react";
 
 type Props = {
   params: { tip: string };
@@ -33,11 +34,13 @@ const Page = ({ params }: Props) => {
   const t = useTranslations("tips");
   const locale = useLocale();
   const isArabic = locale === "ar";
-
   const [tipImage, setTipImage] = useState<File>();
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [tipTitle, setTipTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [tipTitleAr, setTipTitleAr] = useState<string>("");
+  const [tipTitleEn, setTipTitleEn] = useState<string>("");
+  const [contentAr, setContentAr] = useState<string>("");
+  const [contentEn, setContentEn] = useState<string>("");
+  const [tipLanguage, setTipLanguage] = useState("ar");
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -81,8 +84,10 @@ const Page = ({ params }: Props) => {
         if (tip) {
           setTip(tip);
           setImageUrl(tip.tipImage);
-          setTipTitle(tip.tipTitle);
-          setContent(tip.content);
+          setTipTitleAr(tip.tipTitleAr);
+          setTipTitleEn(tip.tipTitleEn);
+          setContentAr(tip.contentAr);
+          setContentEn(tip.contentEn);
           setLoadingTips(false);
         }
       });
@@ -160,79 +165,196 @@ const Page = ({ params }: Props) => {
       <div
         className={`flex flex-col gap-10 w-full h-screen px-10 py-5 overflow-y-auto`}
       >
-        {/* Tip title */}
-        <div className={`flex flex-col justify-center items-center`}>
-          <h2
-            className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+        <Tabs
+          aria-label="Options"
+          selectedKey={tipLanguage}
+          onSelectionChange={(key) => setTipLanguage(key.toString())}
+          className={`flex justify-center items-center`}
+        >
+          {/* Tip in Arabic */}
+          <Tab
+            key="ar"
+            title={t("inArabic")}
+            className={`flex flex-col gap-10`}
           >
-            {t("tipTitle")}
-          </h2>
-          <input
-            aria-label="tipTitle"
-            value={tipTitle}
-            placeholder={t("tipTitle")}
-            onChange={(e) => setTipTitle(e.target.value)}
-            className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%]`}
-          />
-        </div>
-
-        <button className="flex flex-col items-center justify-center cursor-default">
-          <label htmlFor={`imageInput`} className="cursor-pointer">
+            {/* Heading */}
             <div
-              className={`flex flex-row justify-center items-center gap-2 bg-primary/30 dark:bg-primary/10 btn hover:px-6
-                border border-primary shadow-md`}
+              className={`flex flex-col justify-center items-center gap-3 text-center`}
             >
-              <span>{svgAddImage}</span>
-              <p className={`text-primary`}>{t("image")}</p>
+              <p className={`text-primary text-2xl md:text-4xl font-bold`}>
+                {t("editTipAr")}
+              </p>
             </div>
-          </label>
-          <input
-            aria-label="tipImage"
-            type="file"
-            id={`imageInput`}
-            multiple
-            accept="image/*"
-            className="absolute -top-10"
-            onChange={(e) => handleImageChange(e)}
-          />
-        </button>
 
-        {/* Tip contnet */}
-        <ReactQuill
-          modules={moduleOptions}
-          theme="snow"
-          value={content}
-          onChange={setContent}
-          className={`bg-white/40 dark:bg-white/10 w-full h-96 pb-[44px]`}
-        />
+            {/* Tip title */}
+            <div className={`flex flex-col justify-center items-center`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+              >
+                {t("tipTitle")}
+              </h2>
+              <input
+                aria-label="tipTitle"
+                value={tipTitleAr}
+                placeholder={t("tipTitle")}
+                onChange={(e) => setTipTitleAr(e.target.value)}
+                className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%]`}
+              />
+            </div>
 
-        <div className={`flex flex-col`}>
-          <p
-            className={`text-primary font-bold text-3xl md:text-4xl lg:text-5xl h-fit text-center mb-4`}
+            {/* Edit Image */}
+            <button className="flex flex-col items-center justify-center cursor-default">
+              <label htmlFor={`imageInput`} className="cursor-pointer">
+                <div
+                  className={`flex flex-row justify-center items-center gap-2 bg-primary/30 dark:bg-primary/10 btn hover:px-6
+                border border-primary shadow-md`}
+                >
+                  <span>{svgAddImage}</span>
+                  <p className={`text-primary`}>{t("image")}</p>
+                </div>
+              </label>
+              <input
+                aria-label="tipImage"
+                type="file"
+                id={`imageInput`}
+                multiple
+                accept="image/*"
+                className="absolute -top-10"
+                onChange={(e) => handleImageChange(e)}
+              />
+            </button>
+
+            {/* Tip contnet */}
+            <ReactQuill
+              modules={moduleOptions}
+              theme="snow"
+              value={contentAr}
+              onChange={setContentAr}
+              className={`bg-white/40 dark:bg-white/10 w-full h-96 pb-[44px]`}
+            />
+
+            {/* Tip review */}
+            <div className={`flex flex-col`}>
+              <p
+                className={`text-primary font-bold text-3xl md:text-4xl lg:text-5xl h-fit text-center mb-4`}
+              >
+                {tipTitleAr}
+              </p>
+
+              <div className="flex flex-row gap-2 mx-auto mb-12">
+                <span className="text-transparent border-b border-b-primary/70 mb-4">
+                  __________
+                </span>
+                <span className={`mt-4`}>{svgDot}</span>
+                <span className="text-transparent border-b border-b-primary/70 mb-4">
+                  __________
+                </span>
+              </div>
+
+              <Image
+                src={imageUrl?.length > 0 ? imageUrl : "/images/testing.png"}
+                alt="Tip image"
+                height={1000}
+                width={1000}
+                className={`object-cover h-96 w-full rounded-xl border border-primary shadow-lg mb-8 flex justify-center`}
+              />
+
+              <div className="quill-content">{parse(contentAr)}</div>
+            </div>
+          </Tab>
+
+          {/* Tip in English */}
+          <Tab
+            key="en"
+            title={t("inEnglish")}
+            className={`flex flex-col gap-10`}
           >
-            {tipTitle}
-          </p>
+            {/* Heading */}
+            <div
+              className={`flex flex-col justify-center items-center gap-3 text-center`}
+            >
+              <p className={`text-primary text-2xl md:text-4xl font-bold`}>
+                {t("editTipEn")}
+              </p>
+            </div>
 
-          <div className="flex flex-row gap-2 mx-auto mb-12">
-            <span className="text-transparent border-b border-b-primary/70 mb-4">
-              __________
-            </span>
-            <span className={`mt-4`}>{svgDot}</span>
-            <span className="text-transparent border-b border-b-primary/70 mb-4">
-              __________
-            </span>
-          </div>
+            {/* Tip title */}
+            <div className={`flex flex-col justify-center items-center`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+              >
+                {t("tipTitle")}
+              </h2>
+              <input
+                aria-label="tipTitle"
+                value={tipTitleEn}
+                placeholder={t("tipTitle")}
+                onChange={(e) => setTipTitleEn(e.target.value)}
+                className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%]`}
+              />
+            </div>
 
-          <Image
-            src={imageUrl?.length > 0 ? imageUrl : "/images/testing.png"}
-            alt="Tip image"
-            height={1000}
-            width={1000}
-            className={`object-cover h-96 w-full rounded-xl border border-primary shadow-lg mb-8 flex justify-center`}
-          />
+            {/* Edit Image */}
+            <button className="flex flex-col items-center justify-center cursor-default">
+              <label htmlFor={`imageInput`} className="cursor-pointer">
+                <div
+                  className={`flex flex-row justify-center items-center gap-2 bg-primary/30 dark:bg-primary/10 btn hover:px-6
+                border border-primary shadow-md`}
+                >
+                  <span>{svgAddImage}</span>
+                  <p className={`text-primary`}>{t("image")}</p>
+                </div>
+              </label>
+              <input
+                aria-label="tipImage"
+                type="file"
+                id={`imageInput`}
+                multiple
+                accept="image/*"
+                className="absolute -top-10"
+                onChange={(e) => handleImageChange(e)}
+              />
+            </button>
 
-          <div className="quill-content">{parse(content)}</div>
-        </div>
+            {/* Tip contnet */}
+            <ReactQuill
+              modules={moduleOptions}
+              theme="snow"
+              value={contentEn}
+              onChange={setContentEn}
+              className={`bg-white/40 dark:bg-white/10 w-full h-96 pb-[44px]`}
+            />
+
+            {/* Tip review */}
+            <div className={`flex flex-col`}>
+              <p
+                className={`text-primary font-bold text-3xl md:text-4xl lg:text-5xl h-fit text-center mb-4`}
+              >
+                {tipTitleEn}
+              </p>
+
+              <div className="flex flex-row gap-2 mx-auto mb-12">
+                <span className="text-transparent border-b border-b-primary/70 mb-4">
+                  __________
+                </span>
+                <span className={`mt-4`}>{svgDot}</span>
+                <span className="text-transparent border-b border-b-primary/70 mb-4">
+                  __________
+                </span>
+              </div>
+
+              <Image
+                src={imageUrl?.length > 0 ? imageUrl : "/images/testing.png"}
+                alt="Tip image"
+                height={1000}
+                width={1000}
+                className={`object-cover h-96 w-full rounded-xl border border-primary shadow-lg mb-8 flex justify-center`}
+              />
+
+              <div className="quill-content">{parse(contentEn)}</div>
+            </div>
+          </Tab>
+        </Tabs>
 
         <button
           className={`btn px-4 mx-auto bg-primary mb-20 shadow-Card hover:px-6`}
@@ -240,8 +362,10 @@ const Page = ({ params }: Props) => {
             setIsPosting(true);
             EditTip({
               tipId: tip.tipId,
-              tipTitle,
-              content,
+              tipTitleAr,
+              tipTitleEn,
+              contentAr,
+              contentEn,
               tipImage,
               oldTipImage: tip.tipImage,
             })

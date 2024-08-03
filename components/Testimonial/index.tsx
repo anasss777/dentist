@@ -1,7 +1,7 @@
 "use client";
 
 import firebase from "@/firebase";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import TestimonialCard from "./TestimonialCard";
 import { Testimonial } from "@/types/testimonial";
@@ -9,6 +9,8 @@ import { Testimonial } from "@/types/testimonial";
 const TestimonialSection = () => {
   const t = useTranslations("testimonial");
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const locale = useLocale();
+  const isArabic = locale === "ar";
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -54,8 +56,8 @@ const TestimonialSection = () => {
           .map((testimonial, index) => (
             <TestimonialCard
               key={index}
-              content={testimonial.content}
-              name={testimonial.giver}
+              content={isArabic ? testimonial.contentAr : testimonial.contentEn}
+              name={isArabic ? testimonial.giverAr : testimonial.giverEn}
             />
           ))}
       </div>{" "}

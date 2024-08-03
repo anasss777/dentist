@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import firebase from "@/firebase";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { svgSearch } from "@/components/svgPaths";
 import { Tip } from "@/types/tips";
 import Loading from "@/components/Common/Loading";
@@ -13,6 +13,8 @@ import TipsCard from "@/components/Tips/TipsCard";
 const TipsPage = () => {
   const [tips, setTips] = useState<Tip[]>([]);
   const [searchedTips, setSearchedTips] = useState<Tip[]>([]);
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const t = useTranslations("tips");
 
   useEffect(() => {
@@ -91,7 +93,7 @@ const TipsPage = () => {
           .map((tip, index) => (
             <div key={index}>
               <TipsCard
-                title={tip.tipTitle}
+                title={isArabic ? tip.tipTitleAr : tip.tipTitleEn}
                 imageSrc={tip.tipImage}
                 tipId={`${tip.tipId}`}
                 createdAt={tip.createdAt}

@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import NoAccess from "@/components/Admin/NoAccess";
 import { Profile } from "@/types/profile";
+import FaqContent from "@/components/Faq/FaqContent";
+import { Tab, Tabs } from "@nextui-org/react";
 
 type Props = {
   params: { faq: string };
@@ -20,8 +22,11 @@ type Props = {
 const EditFaqAdmin = ({ params }: Props) => {
   const id = params.faq;
   const t = useTranslations("faq");
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [questionAr, setQuestionAr] = useState("");
+  const [questionEn, setQuestionEn] = useState("");
+  const [answerAr, setAnswerAr] = useState("");
+  const [answerEn, setAnswerEn] = useState("");
+  const [tipLanguage, setTipLanguage] = useState("ar");
   const [faq, setFaq] = useState<Faq | null>(null);
   const [loadingFaq, setLoadingFaq] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
@@ -29,6 +34,7 @@ const EditFaqAdmin = ({ params }: Props) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const locale = useLocale();
+  const isArabic = locale === "ar";
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -47,8 +53,10 @@ const EditFaqAdmin = ({ params }: Props) => {
         const faq = newFaqs.find((faq) => faq.id === id);
         if (faq) {
           setFaq(faq);
-          setQuestion(faq.question);
-          setAnswer(faq.answer);
+          setQuestionAr(faq.questionAr);
+          setQuestionEn(faq.questionEn);
+          setAnswerAr(faq.answerAr);
+          setAnswerEn(faq.answerEn);
           setLoadingFaq(false);
         }
       });
@@ -122,51 +130,124 @@ const EditFaqAdmin = ({ params }: Props) => {
     <>
       <ToastContainer />
       <div
-        className={`flex flex-col justify-center items-center gap-10 w-full h-screen px-10 pb-5 pt-8 overflow-y-auto`}
+        className={`flex flex-col gap-10 w-full h-screen px-10 pb-5 pt-8 overflow-y-auto`}
       >
-        {/* Faq question */}
-        <div className={`flex flex-col justify-center items-center w-full`}>
-          <h2
-            className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+        <Tabs
+          aria-label="Options"
+          selectedKey={tipLanguage}
+          onSelectionChange={(key) => setTipLanguage(key.toString())}
+          className={`flex justify-center items-center`}
+        >
+          {/* Faq in Arabic */}
+          <Tab
+            key="ar"
+            title={t("inArabic")}
+            className={`flex flex-col gap-10 w-full justify-start items-center`}
           >
-            {t("question")}
-          </h2>
-          <input
-            aria-label="question"
-            value={question}
-            placeholder={t("question")}
-            onChange={(e) => setQuestion(e.target.value)}
-            className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
+            {/* Faq question in Arabic */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+              >
+                {t("question")}
+              </h2>
+              <input
+                aria-label="question"
+                value={questionAr}
+                placeholder={t("question")}
+                onChange={(e) => setQuestionAr(e.target.value)}
+                className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
                 outline-primary`}
-          />
-        </div>
+              />
+            </div>
 
-        {/* Faq answer */}
-        <div className={`flex flex-col justify-center items-center w-full`}>
-          <h2
-            className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
+            {/* Faq answer in Arabic */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
+              >
+                {t("answer")}
+              </h2>
+              <textarea
+                rows={4}
+                cols={50}
+                placeholder={t("answer")}
+                value={answerAr}
+                onChange={(e) => setAnswerAr(e.target.value)}
+                className="border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
+                outline-primary"
+              ></textarea>
+            </div>
+
+            {/* Preview in Arabic */}
+            {questionAr.length > 0 && answerAr.length > 0 && (
+              <FaqContent question={questionAr} answer={answerAr} index={0} />
+            )}
+          </Tab>
+
+          {/* Faq in English */}
+          <Tab
+            key="en"
+            title={t("inEnglish")}
+            className={`flex flex-col gap-10 w-full justify-start items-center`}
           >
-            {t("answer")}
-          </h2>
-          <textarea
-            rows={4}
-            cols={50}
-            placeholder={t("answer")}
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            className="border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
-            outline-primary"
-          ></textarea>
-        </div>
+            {/* Faq question in English */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+              >
+                {t("question")}
+              </h2>
+              <input
+                aria-label="question"
+                value={questionEn}
+                placeholder={t("question")}
+                onChange={(e) => setQuestionEn(e.target.value)}
+                className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
+                outline-primary text-left ltr ${
+                  isArabic ? "placeholder:text-right" : "placeholder:text-left"
+                }`}
+              />
+            </div>
 
-        {/* Preview */}
+            {/* Faq answer in English */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
+              >
+                {t("answer")}
+              </h2>
+              <textarea
+                rows={4}
+                cols={50}
+                placeholder={t("answer")}
+                value={answerEn}
+                onChange={(e) => setAnswerEn(e.target.value)}
+                className={`border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
+                outline-primary  text-left ltr ${
+                  isArabic ? "placeholder:text-right" : "placeholder:text-left"
+                }`}
+              ></textarea>
+            </div>
+
+            {/* Preview in English */}
+            {questionEn.length > 0 && answerEn.length > 0 && (
+              <FaqContent
+                question={questionEn}
+                answer={answerEn}
+                index={0}
+                isEnglish
+              />
+            )}
+          </Tab>
+        </Tabs>
 
         {/* Submit button */}
         <button
           className={`btn px-4 mx-auto bg-primary mt-14 shadow-Card hover:px-6`}
           onClick={() => {
             setIsPosting(true);
-            editFaq(id, question, answer)
+            editFaq(id, questionAr, answerAr, questionEn, answerEn)
               .then(() => {
                 toast.success(t("editSuccess"));
                 setTimeout(() => {

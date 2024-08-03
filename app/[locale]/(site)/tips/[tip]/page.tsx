@@ -104,7 +104,7 @@ const Page = ({ params }: Props) => {
         <p
           className={`text-primary font-bold text-3xl md:text-4xl lg:text-5xl h-fit text-center mb-4`}
         >
-          {tip.tipTitle}
+          {isArabic ? tip.tipTitleAr : tip.tipTitleEn}
         </p>
 
         {/* Fancy underline */}
@@ -129,7 +129,9 @@ const Page = ({ params }: Props) => {
         />
 
         {/* Tip content */}
-        <div className="quill-content">{parse(tip.content)}</div>
+        <div className={`quill-content ${!isArabic && "ltr"}`}>
+          {parse(isArabic ? tip.contentAr : tip.contentEn)}
+        </div>
       </div>
 
       {/* Add new comment */}

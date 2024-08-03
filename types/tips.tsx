@@ -4,8 +4,10 @@ import { Comment } from "./comment";
 export type Tip = {
   tipId: string;
   createdAt: Timestamp;
-  tipTitle: string;
+  tipTitleAr: string;
+  tipTitleEn: string;
   tipImage: string;
-  content: string;
+  contentAr: string;
+  contentEn: string;
   comments: Comment[];
 };

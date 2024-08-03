@@ -17,6 +17,7 @@ type Props = {
 
 const TipsRow = ({ tip }: Props) => {
   const locale = useLocale();
+  const isArabic = locale === "ar";
   const t = useTranslations("tips");
 
   const handleDeleteTip = () => {
@@ -44,13 +45,15 @@ const TipsRow = ({ tip }: Props) => {
       >
         <Image
           src={tip.tipImage || "/images/testing.png"}
-          alt={tip.tipTitle}
+          alt={isArabic ? tip.tipTitleAr : tip.tipTitleEn}
           height={500}
           width={500}
           className={`object-scale-down h-12 w-fit rounded-md shadow-md`}
         />
       </td>
-      <td className={`text-gray-400 text-center py-3`}>{tip.tipTitle}</td>
+      <td className={`text-gray-400 text-center py-3`}>
+        {isArabic ? tip.tipTitleAr : tip.tipTitleEn}
+      </td>
       <td className={`text-gray-400 text-center py-3`}>
         {tip.createdAt.toDate().toLocaleDateString()}
       </td>

@@ -18,6 +18,7 @@ import {
   svgThought2,
   svgVideo,
 } from "../svgPaths";
+import LocaleSwitcher from "../Header/LocaleSwitcher";
 
 const locales = ["ar", "en"];
 const { Link } = createSharedPathnamesNavigation({ locales });
@@ -285,9 +286,15 @@ const Sidebar = () => {
         </Link>
       </div>
 
-      <div className={`mt-2`}>
+      <div
+        className={`flex flex-row justify-center items-center gap-2 w-full mt-2`}
+      >
+        {/* Locale switcher */}
+        <LocaleSwitcher onAdmin />
+
+        {/* Theme Switcher */}
         <span
-          className={`p-[6px] w-fit h-fit rounded-full mx-auto flex justify-center bg-primary/50`}
+          className={`p-[6px] w-fit h-fit rounded-full flex justify-center bg-primary/50`}
         >
           <ThemeSwitcher />
         </span>

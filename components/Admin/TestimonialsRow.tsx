@@ -15,6 +15,7 @@ type Props = {
 
 const TestimonialsRow = ({ testimonial }: Props) => {
   const locale = useLocale();
+  const isArabic = locale === "ar";
   const t = useTranslations("testimonial");
 
   const handleDeleteTestimonial = () => {
@@ -40,10 +41,10 @@ const TestimonialsRow = ({ testimonial }: Props) => {
       <td
         className={`text-gray-400 text-center py-4 flex items-center justify-center`}
       >
-        {testimonial.giver}
+        {isArabic ? testimonial.giverAr : testimonial.giverEn}
       </td>
       <td className={`text-gray-400 text-center py-3`}>
-        {testimonial.content}
+        {isArabic ? testimonial.contentAr : testimonial.contentEn}
       </td>
       <td
         className={`flex flex-row justify-center items-center gap-1 text-gray-400 py-[35px]`}

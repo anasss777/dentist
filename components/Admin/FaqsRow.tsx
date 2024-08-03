@@ -15,6 +15,7 @@ type Props = {
 
 const FaqsRow = ({ faq }: Props) => {
   const locale = useLocale();
+  const isArabic = locale === "ar";
   const t = useTranslations("faq");
 
   const handleDeleteFaq = () => {
@@ -37,13 +38,17 @@ const FaqsRow = ({ faq }: Props) => {
 
   return (
     <tr className="my-4">
-      <td className={`text-gray-400 text-center py-3`}>{faq.question}</td>
-      {faq.answer.length > 70 ? (
+      <td className={`text-gray-400 text-center py-3`}>
+        {isArabic ? faq.questionAr : faq.questionEn}
+      </td>
+      {faq.answerAr.length > 70 ? (
         <td className={`text-gray-400 text-center py-3`}>
-          {faq.answer.slice(0, 70)}...
+          {isArabic ? faq.answerAr.slice(0, 70) : faq.answerEn.slice(0, 70)}...
         </td>
       ) : (
-        <td className={`text-gray-400 text-center py-3`}>{faq.answer}</td>
+        <td className={`text-gray-400 text-center py-3`}>
+          {isArabic ? faq.answerAr : faq.answerEn}
+        </td>
       )}
       <td
         className={`flex flex-row justify-center items-center gap-1 text-gray-400 py-[35px] px-10`}

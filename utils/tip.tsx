@@ -3,19 +3,29 @@ import { Comment } from "@/types/comment";
 import { Tip } from "@/types/tips";
 
 type Props = {
-  tipTitle: string;
-  content: string;
+  tipTitleAr: string;
+  tipTitleEn: string;
+  contentAr: string;
+  contentEn: string;
   tipImage?: File;
 };
 
-export const addTip = async ({ tipTitle, content, tipImage }: Props) => {
+export const addTip = async ({
+  tipTitleAr,
+  tipTitleEn,
+  contentAr,
+  contentEn,
+  tipImage,
+}: Props) => {
   let newTipRef = firebase.firestore().collection("tips").doc();
 
   await newTipRef.set({
     tipId: newTipRef.id,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    tipTitle,
-    content,
+    tipTitleAr,
+    tipTitleEn,
+    contentAr,
+    contentEn,
   });
 
   if (tipImage) {
@@ -49,16 +59,20 @@ export const addTip = async ({ tipTitle, content, tipImage }: Props) => {
 
 type EditProps = {
   tipId: string;
-  tipTitle: string;
-  content: string;
+  tipTitleAr: string;
+  tipTitleEn: string;
+  contentAr: string;
+  contentEn: string;
   tipImage?: File;
   oldTipImage?: string;
 };
 
 export const EditTip = async ({
   tipId,
-  tipTitle,
-  content,
+  tipTitleAr,
+  tipTitleEn,
+  contentAr,
+  contentEn,
   tipImage,
   oldTipImage,
 }: EditProps) => {
@@ -121,8 +135,10 @@ export const EditTip = async ({
   // update data
   tipRef
     .update({
-      tipTitle,
-      content,
+      tipTitleAr,
+      tipTitleEn,
+      contentAr,
+      contentEn,
     })
     .then(() => {
       console.log("Tip updated successfully.");

@@ -3,12 +3,14 @@
 import firebase from "@/firebase";
 import React, { useEffect, useState } from "react";
 import TipsCard from "./TipsCard";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Tip } from "@/types/tips";
 import Loading from "../Common/Loading";
 
 const TipsSection = () => {
   const [tips, setTips] = useState<Tip[]>([]);
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   const t = useTranslations("tips");
 
   useEffect(() => {
@@ -80,7 +82,7 @@ const TipsSection = () => {
           .map((tip, index) => (
             <div key={index}>
               <TipsCard
-                title={tip.tipTitle}
+                title={isArabic ? tip.tipTitleAr : tip.tipTitleEn}
                 imageSrc={tip.tipImage}
                 tipId={`${tip.tipId}`}
                 createdAt={tip.createdAt}

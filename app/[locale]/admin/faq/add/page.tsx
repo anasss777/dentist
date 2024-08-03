@@ -12,16 +12,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Profile } from "@/types/profile";
 import NoAccess from "@/components/Admin/NoAccess";
+import { Tab, Tabs } from "@nextui-org/react";
 
 const AddFaqAdmin = () => {
   const t = useTranslations("faq");
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [questionAr, setQuestionAr] = useState("");
+  const [questionEn, setQuestionEn] = useState("");
+  const [answerAr, setAnswerAr] = useState("");
+  const [answerEn, setAnswerEn] = useState("");
+  const [tipLanguage, setTipLanguage] = useState("ar");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const locale = useLocale();
+  const isArabic = locale === "ar";
 
   useEffect(() => {
     const unsubscribeAuth = firebase.auth().onAuthStateChanged((user) => {
@@ -74,60 +79,150 @@ const AddFaqAdmin = () => {
     <>
       <ToastContainer />
       <div
-        className={`flex flex-col justify-center items-center gap-10 w-full h-screen px-10 pb-5 pt-8 overflow-y-auto`}
+        className={`flex flex-col gap-10 w-full h-screen px-10 pb-5 pt-8 overflow-y-auto`}
       >
-        {/* Faq question */}
-        <div className={`flex flex-col justify-center items-center w-full`}>
-          <h2
-            className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+        <Tabs
+          aria-label="Options"
+          selectedKey={tipLanguage}
+          onSelectionChange={(key) => setTipLanguage(key.toString())}
+          className={`flex justify-center items-center`}
+        >
+          {/* Faq in Arabic */}
+          <Tab
+            key="ar"
+            title={t("inArabic")}
+            className={`flex flex-col gap-10 w-full justify-start items-center`}
           >
-            {t("question")}
-          </h2>
-          <input
-            aria-label="question"
-            value={question}
-            placeholder={t("question")}
-            onChange={(e) => setQuestion(e.target.value)}
-            className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
-                outline-primary`}
-          />
-        </div>
+            {/* Heading */}
+            <div
+              className={`flex flex-col justify-center items-center gap-3 text-center`}
+            >
+              <p className={`text-primary text-2xl md:text-4xl font-bold`}>
+                {t("addFaqAr")}
+              </p>
+            </div>
 
-        {/* Faq answer */}
-        <div className={`flex flex-col justify-center items-center w-full`}>
-          <h2
-            className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
+            {/* Faq question in Arabic */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+              >
+                {t("question")}
+              </h2>
+              <input
+                aria-label="question"
+                value={questionAr}
+                placeholder={t("question")}
+                onChange={(e) => setQuestionAr(e.target.value)}
+                className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
+                  outline-primary`}
+              />
+            </div>
+
+            {/* Faq answer in Arabic */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
+              >
+                {t("answer")}
+              </h2>
+              <textarea
+                rows={4}
+                cols={50}
+                placeholder={t("answer")}
+                value={answerAr}
+                onChange={(e) => setAnswerAr(e.target.value)}
+                className="border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
+              outline-primary"
+              ></textarea>
+            </div>
+
+            {/* Preview in Arabic */}
+            {questionAr.length > 0 && answerAr.length > 0 && (
+              <FaqContent question={questionAr} answer={answerAr} index={0} />
+            )}
+          </Tab>
+
+          {/* Faq in English */}
+          <Tab
+            key="en"
+            title={t("inEnglish")}
+            className={`flex flex-col gap-10 w-full justify-start items-center`}
           >
-            {t("answer")}
-          </h2>
-          <textarea
-            rows={4}
-            cols={50}
-            placeholder={t("answer")}
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            className="border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
-            outline-primary"
-          ></textarea>
-        </div>
+            {/* Heading */}
+            <div
+              className={`flex flex-col justify-center items-center gap-3 text-center`}
+            >
+              <p className={`text-primary text-2xl md:text-4xl font-bold`}>
+                {t("addFaqEn")}
+              </p>
+            </div>
 
-        {/* Preview */}
-        {question.length > 0 && answer.length > 0 && (
-          <FaqContent question={question} answer={answer} index={0} />
-        )}
+            {/* Faq question in English */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-20 text-center`}
+              >
+                {t("question")}
+              </h2>
+              <input
+                aria-label="question"
+                value={questionEn}
+                placeholder={t("question")}
+                onChange={(e) => setQuestionEn(e.target.value)}
+                className={`border border-primary/70 px-2 py-1 rounded-md w-full sm:w-[70%] md:w-[50%] lg:w-[30%] placeholder:text-gray-400
+                outline-primary text-left ltr ${
+                  isArabic ? "placeholder:text-right" : "placeholder:text-left"
+                }`}
+              />
+            </div>
+
+            {/* Faq answer in English */}
+            <div className={`flex flex-col justify-center items-center w-full`}>
+              <h2
+                className={`text-primary text-lg font-bold mb-4 mt-10 text-center`}
+              >
+                {t("answer")}
+              </h2>
+              <textarea
+                rows={4}
+                cols={50}
+                placeholder={t("answer")}
+                value={answerEn}
+                onChange={(e) => setAnswerEn(e.target.value)}
+                className={`border border-primary/70 w-full rounded-md p-2 dark:bg-gray-800 resize-none placeholder:text-gray-400
+              outline-primary  text-left ltr ${
+                isArabic ? "placeholder:text-right" : "placeholder:text-left"
+              }`}
+              ></textarea>
+            </div>
+
+            {/* Preview in English */}
+            {questionEn.length > 0 && answerEn.length > 0 && (
+              <FaqContent
+                question={questionEn}
+                answer={answerEn}
+                index={0}
+                isEnglish
+              />
+            )}
+          </Tab>
+        </Tabs>
 
         {/* Submit button */}
         <button
           className={`btn px-4 mx-auto bg-primary mt-14 shadow-Card hover:px-6`}
           onClick={() => {
             setIsLoading(true);
-            addFaq(question, answer)
+            addFaq(questionAr, answerAr, questionEn, answerEn)
               .then(() => {
                 toast.success(t("success"));
                 setTimeout(() => {
                   setIsLoading(false);
-                  setQuestion("");
-                  setAnswer("");
+                  setQuestionAr("");
+                  setQuestionEn("");
+                  setAnswerAr("");
+                  setAnswerEn("");
                   router.push(`/admin/faq`);
                 }, 1500);
               })

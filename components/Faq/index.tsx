@@ -3,12 +3,14 @@
 import firebase from "@/firebase";
 import React, { useEffect, useState } from "react";
 import FaqContent from "./FaqContent";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Faq } from "@/types/faq";
 
 const FaqAdmin = () => {
   const t = useTranslations("faq");
   const [faqs, setFaqs] = useState<Faq[]>([]);
+  const locale = useLocale();
+  const isArabic = locale === "ar";
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -52,12 +54,12 @@ const FaqAdmin = () => {
         className={`grid grid-cols-1 md:grid-cols-2 justify-center items-start gap-5`}
       >
         {faqs
-          .sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)
+          .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
           .map((data, index) => (
             <FaqContent
               key={index}
-              question={data.question}
-              answer={data.answer}
+              question={isArabic ? data.questionAr : data.questionEn}
+              answer={isArabic ? data.answerAr : data.answerEn}
               index={index}
             />
           ))}

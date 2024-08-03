@@ -7,9 +7,10 @@ type Props = {
   question: string;
   answer: string;
   index: number;
+  isEnglish?: boolean;
 };
 
-const FaqContent = ({ question, answer, index }: Props) => {
+const FaqContent = ({ question, answer, index, isEnglish }: Props) => {
   // Initialize state to keep track of active FAQ items
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const locale = useLocale();
@@ -27,7 +28,7 @@ const FaqContent = ({ question, answer, index }: Props) => {
   return (
     <div
       key={index}
-      className={`faq border-b border-stroke text-white ${rtl}  ${
+      className={`faq border-b border-stroke text-white ${isEnglish && "ltr"} ${
         activeFaq === index ? "active" : ""
       }`}
     >
@@ -41,7 +42,7 @@ const FaqContent = ({ question, answer, index }: Props) => {
       <div
         className={`faq-content h-auto overflow-hidden border-t border-stroke px-[18px] sm:px-[26px] bg-primary/30 ${
           locale == "ar" ? "text-right" : "text-left"
-        }`}
+        } ${isEnglish && "!text-left"}`}
       >
         <p className="font-medium">{answer}</p>
       </div>

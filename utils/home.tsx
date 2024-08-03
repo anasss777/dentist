@@ -41,15 +41,22 @@ export const editHighlightSection = async ({
     });
 };
 
-export const addTestimonial = async (giver: string, content: string) => {
+export const addTestimonial = async (
+  giverAr: string,
+  giverEn: string,
+  contentAr: string,
+  contentEn: string
+) => {
   let testimonialRef = firebase.firestore().collection("testimonials").doc();
 
   await testimonialRef
     .set({
       id: testimonialRef.id,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      giver,
-      content,
+      giverAr,
+      giverEn,
+      contentAr,
+      contentEn,
     })
     .then(() => {
       console.log("Testimonial added successfully!");
@@ -61,15 +68,19 @@ export const addTestimonial = async (giver: string, content: string) => {
 
 export const editTestimonial = async (
   id: string,
-  giver: string,
-  content: string
+  giverAr: string,
+  giverEn: string,
+  contentAr: string,
+  contentEn: string
 ) => {
   let testimonialRef = firebase.firestore().collection("testimonials").doc(id);
 
   await testimonialRef
     .update({
-      giver,
-      content,
+      giverAr,
+      giverEn,
+      contentAr,
+      contentEn,
     })
     .then(() => {
       console.log("Testimonial updated successfully!");
@@ -96,15 +107,22 @@ export const deleteTestimonial = async (testimonial: Testimonial) => {
     });
 };
 
-export const addFaq = async (question: string, answer: string) => {
+export const addFaq = async (
+  questionAr: string,
+  answerAr: string,
+  questionEn: string,
+  answerEn: string
+) => {
   let faqRef = firebase.firestore().collection("faqs").doc();
 
   await faqRef
     .set({
       id: faqRef.id,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      question,
-      answer,
+      questionAr,
+      questionEn,
+      answerAr,
+      answerEn,
     })
     .then(() => {
       console.log("Faq added successfully!");
@@ -114,13 +132,21 @@ export const addFaq = async (question: string, answer: string) => {
     });
 };
 
-export const editFaq = async (id: string, question: string, answer: string) => {
+export const editFaq = async (
+  id: string,
+  questionAr: string,
+  answerAr: string,
+  questionEn: string,
+  answerEn: string
+) => {
   let faqRef = firebase.firestore().collection("faqs").doc(id);
 
   await faqRef
     .update({
-      question,
-      answer,
+      questionAr,
+      questionEn,
+      answerAr,
+      answerEn,
     })
     .then(() => {
       console.log("Faq updated successfully!");

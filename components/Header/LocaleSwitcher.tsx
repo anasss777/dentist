@@ -1,11 +1,21 @@
 import { useLocale } from "next-intl";
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
-import { svgKsa, svgLocale, svgTurkey, svgUk } from "../svgPaths";
+import {
+  svgKsa,
+  svgLocale,
+  svgLocaleBlue,
+  svgTurkey,
+  svgUk,
+} from "../svgPaths";
+
+type Props = {
+  onAdmin?: boolean;
+};
 
 export const locales = ["ar", "en"];
 const { Link, usePathname } = createSharedPathnamesNavigation({ locales });
 
-function LocaleSwitcher() {
+function LocaleSwitcher({ onAdmin }: Props) {
   const pathname = usePathname();
   const locale = useLocale();
   const isArabic = locale === "ar";
@@ -16,13 +26,16 @@ function LocaleSwitcher() {
         locale === "ar" && "rtl"
       }`}
     >
-      {svgLocale}
+      {onAdmin ? svgLocaleBlue : svgLocale}
       <div
-        className={`border border-primary relative top-full hidden w-[125px] rounded-md bg-white py-2 transition-[top] duration-300
-          group-hover:opacity-100 lg:invisible lg:absolute lg:top-[110%] lg:block lg:opacity-0 lg:shadow-lg lg:group-hover:visible
-          lg:group-hover:top-full dark:bg-gray-800 ${
+        className={`border border-primary relative hidden w-[125px] rounded-md bg-white py-2 duration-300 group-hover:opacity-100
+          lg:invisible lg:absolute lg:block lg:opacity-0 lg:shadow-lg lg:group-hover:visible dark:bg-gray-800 ${
             locale === "ar" ? "left-0" : "right-0"
-          }`}
+          } ${
+          onAdmin
+            ? "bottom-full transition-[bottom] lg:bottom-[110%] lg:group-hover:bottom-full"
+            : "top-full transition-[top] lg:top-[110%] lg:group-hover:top-full"
+        }`}
       >
         {/* Arabic Option */}
         <Link
