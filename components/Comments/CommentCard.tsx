@@ -8,7 +8,6 @@ import { useStateContext } from "@/context/stateContext";
 import { deleteComment } from "@/utils/tip";
 import Swal from "sweetalert2";
 import { Tip } from "@/types/tips";
-import ReportComment from "./ReportComment";
 
 type Props = {
   comment: Comment;
@@ -99,9 +98,6 @@ const CommentCard = ({ comment, tip }: Props) => {
         )}
 
         <div className={`flex flex-row gap-1 justify-end items-end mt-5`}>
-          {/* Report */}
-          {/* <ReportComment comment={comment} tip={tip} /> */}
-
           {/* Delete (admin exclusive) */}
           {isAdmin && (
             <div

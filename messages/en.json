@@ -274,7 +274,6 @@
     "highlights": "Highlights",
     "tips": "General Tips",
     "addTip": "Add Tip",
-    "reports": "Reports",
     "manage": "Manage",
     "testimonials": "Testimonials",
     "addTestimonials": "Add Testimonial",
@@ -302,10 +301,7 @@
     "yesDelete": "Delete",
     "commentDeleted": "Comment successfully deleted",
     "ok": "OK",
-    "showMore": "Show More",
-    "success": "Comment reported",
-    "reportContent": "Write your report about the comment",
-    "report": "Report"
+    "showMore": "Show More"
   },
   "bna": {
     "heading": "Before and After",
