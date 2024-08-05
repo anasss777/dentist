@@ -7,6 +7,7 @@ import Head from "../(site)/Head";
 import { Providers } from "../(site)/Provider";
 import Sidebar from "@/components/Admin/Sidebar";
 import { ContextProvider } from "@/context/stateContext";
+import MobileSidebar from "@/components/Admin/MobileSidebar";
 
 const notoKufiArabic = Noto_Kufi_Arabic({
   subsets: ["arabic"],
@@ -43,7 +44,16 @@ export default function Layout({ children, params }: RootLayoutProps) {
           <Providers>
             <NextIntlClientProvider locale={locale} messages={messages}>
               <Sidebar />
-              <div className="flex-grow">{children}</div>
+              <div className="flex-grow hidden md:flex">{children}</div>
+
+              <div
+                className={`flex flex-col justify-center items-center w-full md:hidden`}
+              >
+                <MobileSidebar />
+                <div className="flex-grow justify-start items-start w-full">
+                  {children}
+                </div>
+              </div>
             </NextIntlClientProvider>
           </Providers>
         </ContextProvider>

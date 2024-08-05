@@ -53,6 +53,7 @@ const NavbarElements = () => {
           }`}
         ></span>
       </button>
+
       <nav
         id="navbarCollapse"
         className={`absolute top-[58px] ${
