@@ -52,19 +52,19 @@ const AppointmentCalendar = ({ name, email, phoneNumber }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const reasonData = [
-    "فحص وتنظيف روتيني",
-    "ألم أو انزعاج في الأسنان",
-    "أمراض اللثة أو نزيف اللثة",
-    "تسوس الأسنان",
-    "حساسية الأسنان",
-    "رائحة الفم الكريهة",
-    "إصابة الأسنان",
-    "تحسينات تجميلية (مثل التبييض، الفينير)",
-    "مشاكل تقويم الأسنان",
-    "زراعة الأسنان أو أطقم الأسنان",
-    "فحص سرطان الفم",
-    "مشاكل جفاف الفم",
-    "الحفاظ على صحة الفم العامة",
+    t("reason1"),
+    t("reason2"),
+    t("reason3"),
+    t("reason4"),
+    t("reason5"),
+    t("reason6"),
+    t("reason7"),
+    t("reason8"),
+    t("reason9"),
+    t("reason10"),
+    t("reason11"),
+    t("reason12"),
+    t("reason13"),
   ];
 
   useEffect(() => {
@@ -223,7 +223,9 @@ const AppointmentCalendar = ({ name, email, phoneNumber }: Props) => {
           onChange={(e) => setVisitReason(e.target.value)}
         >
           {reasonData.map((data) => (
-            <SelectItem key={data}>{data}</SelectItem>
+            <SelectItem key={data} className="mx-0">
+              {data}
+            </SelectItem>
           ))}
         </Select>
 

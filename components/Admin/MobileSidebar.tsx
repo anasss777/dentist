@@ -90,7 +90,7 @@ const MobileSidebar = () => {
           <ul
             onClick={() => setMenuOpen(false)}
             className={`block lg:flex flex-row justify-between border rounded-lg border-primary bg-gray-100 dark:bg-gray-800
-            lg:bg-transparent lg:w-[65vw] lg:border-none lg:dark:bg-transparent h-[85vh] overflow-y-scroll`}
+            lg:bg-transparent lg:w-[65vw] lg:border-none lg:dark:bg-transparent h-[50vh] overflow-y-scroll`}
           >
             <div
               className={`flex flex-row justify-center items-center w-full gap-2 my-2`}

@@ -54,19 +54,19 @@ const AddAppointmentAdmin = () => {
   const router = useRouter();
 
   const reasonData = [
-    "فحص وتنظيف روتيني",
-    "ألم أو انزعاج في الأسنان",
-    "أمراض اللثة أو نزيف اللثة",
-    "تسوس الأسنان",
-    "حساسية الأسنان",
-    "رائحة الفم الكريهة",
-    "إصابة الأسنان",
-    "تحسينات تجميلية (مثل التبييض، الفينير)",
-    "مشاكل تقويم الأسنان",
-    "زراعة الأسنان أو أطقم الأسنان",
-    "فحص سرطان الفم",
-    "مشاكل جفاف الفم",
-    "الحفاظ على صحة الفم العامة",
+    t("reason1"),
+    t("reason2"),
+    t("reason3"),
+    t("reason4"),
+    t("reason5"),
+    t("reason6"),
+    t("reason7"),
+    t("reason8"),
+    t("reason9"),
+    t("reason10"),
+    t("reason11"),
+    t("reason12"),
+    t("reason13"),
   ];
 
   useEffect(() => {
@@ -183,7 +183,7 @@ const AddAppointmentAdmin = () => {
     <>
       <ToastContainer />
       <div
-        className={`flex flex-col justify-start items-start py-20 gap-20 h-screen overflow-y-auto`}
+        className={`flex flex-col justify-start items-start py-20 gap-20 w-full h-screen overflow-y-auto`}
       >
         <div
           className={`flex flex-col justify-center items-center gap-5 w-full px-5 md:px-10 lg:px-20 xl:px-40`}
@@ -299,7 +299,9 @@ const AddAppointmentAdmin = () => {
             onChange={(e) => setVisitReason(e.target.value)}
           >
             {reasonData.map((data) => (
-              <SelectItem key={data}>{data}</SelectItem>
+              <SelectItem key={data} className="mx-0">
+                {data}
+              </SelectItem>
             ))}
           </Select>
 

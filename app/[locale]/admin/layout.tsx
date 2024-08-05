@@ -44,7 +44,9 @@ export default function Layout({ children, params }: RootLayoutProps) {
           <Providers>
             <NextIntlClientProvider locale={locale} messages={messages}>
               <Sidebar />
-              <div className="flex-grow hidden md:flex">{children}</div>
+              <div className="flex-grow hidden md:flex justify-center items-center w-full">
+                {children}
+              </div>
 
               <div
                 className={`flex flex-col justify-center items-center w-full md:hidden`}

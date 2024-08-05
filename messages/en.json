@@ -211,7 +211,7 @@
   "faq": {
     "heading": "Frequently Asked Questions",
     "subheading": "We are here to answer all your queries related to oral and dental health. In this section, you will find a collection of frequently asked questions with detailed answers to provide you with the necessary information about various aspects of dentistry. Whether you are looking for daily dental care tips or want to know more about different treatments, we are here to help.",
-    "addFaqAr": "ِAdd FAQ in Arabic",
+    "addFaqAr": "Add FAQ in Arabic",
     "addFaqEn": "Add FAQ in English",
     "inArabic": "Arabic",
     "inEnglish": "English",
@@ -262,7 +262,20 @@
     "manage": "Manage",
     "addAppointment": "Add Appointment",
     "email": "Email",
-    "phoneNumber": "Phone Number"
+    "phoneNumber": "Phone Number",
+    "reason1": "Routine Check-up and Cleaning",
+    "reason2": "Tooth Pain or Discomfort",
+    "reason3": "Gum Disease or Gum Bleeding",
+    "reason4": "Tooth Decay",
+    "reason5": "Tooth Sensitivity",
+    "reason6": "Bad Breath",
+    "reason7": "Tooth Injury",
+    "reason8": "Cosmetic Improvements (e.g., Whitening, Veneers)",
+    "reason9": "Orthodontic Issues",
+    "reason10": "Dental Implants or Dentures",
+    "reason11": "Oral Cancer Screening",
+    "reason12": "Dry Mouth Issues",
+    "reason13": "Maintaining General Oral Health"
   },
   "adminPanel": {
     "dashboard": "Dashboard",

@@ -58,8 +58,8 @@ const TipsList = () => {
             setSearchedTips(searchTips(event.target.value, tips))
           }
           placeholder={t("searchTips")}
-          className={`py-2 px-2 rounded-s-md focus:outline-primary/70 min-[425px]:w-[300px] sm:w-1/2 lg:w-1/5 w-[80%] bg-gray-50
-            shadow-Card2 my-10`}
+          className={`py-2 px-2 rounded-s-md focus:outline-primary/70 min-[425px]:w-[300px] sm:w-1/2 lg:w-1/5 w-[80%] bg-white
+          dark:bg-third/5 shadow-Card2 my-10`}
         />
         <button className="bg-primary p-[11.5px] rounded-e-md">
           {svgSearch}
