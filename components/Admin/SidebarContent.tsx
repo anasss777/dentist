@@ -84,24 +84,6 @@ const SidebarContent = () => {
         {t("addAppointment")}
       </Link>
 
-      {/* Highlights section */}
-      <Link
-        href="/admin/highlights"
-        locale={locale}
-        className={`w-full py-2 text-primary hover:text-gray-50 hover:bg-primary/50 transition-all duration-300 ease-linear px-2 
-            rounded-xl flex flex-row justify-start items-center gap-2 ${
-              currentPage === `/${locale}/admin/highlights` &&
-              "bg-primary hover:bg-primary/90 text-white font-semibold transition-all ease-linear"
-            }`}
-      >
-        <span
-          className={`dark:bg-gray-900 bg-gray-50 rounded-full border border-secondary p-[6px]`}
-        >
-          {svgVideo}
-        </span>
-        {t("highlights")}
-      </Link>
-
       {/* Tips section */}
       <Link
         href="/admin/tips"

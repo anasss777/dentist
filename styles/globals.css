@@ -16,22 +16,6 @@
     direction: ltr !important;
 }
 
-.slick-prev:before,
-.slick-next:before {
-  color: #4998f2 !important;
-}
-
-.slick-dots li button:before {
-    font-size: 12px !important; /* Change the size of the dots */
-    color: #4998f2 !important;  /* Custom color for the dots */
-    opacity: 0.2 !important;   /* Adjust the opacity if needed */
-  }
-  
-  .slick-dots li.slick-active button:before {
-    color: #4998f2 !important; /* Custom color for the active dot */
-    opacity: 1 !important;     /* Ensure active dot is fully opaque */
-  }
-
 ::-webkit-scrollbar {
     width: 10px;
 }

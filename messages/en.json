@@ -7,7 +7,7 @@
     "about": "About Me",
     "appointments": "Appointments",
     "tips": "General Tips",
-    "nav3": "Page 3",
+    "beforeAndAfter": "Before and After",
     "contact": "Contact",
     "profile": "My Account",
     "changePassword": "Change Password",
@@ -163,17 +163,6 @@
     "success": "Published Successfully",
     "editSuccess": "Edited Successfully"
   },
-  "highlights": {
-    "heading": "Highlights",
-    "subheading": "Follow along with the latest moments and activities at Al-Basma Clinic through our Instagram posts. In this section, we present you with glimpses of our daily life, patient successes, and various events. Enjoy watching the photos and videos, and get useful tips and information directly from our team.",
-    "seeMore": "See More",
-    "link1": "First Link",
-    "link2": "Second Link",
-    "link3": "Third Link",
-    "edit": "Edit",
-    "editing": "Editing",
-    "success": "Edited Successfully"
-  },
   "contact": {
     "heading": "Contact Us",
     "subheading": "We are here to answer all your inquiries and provide the support you need. Get in touch with us to book an appointment, or to ask any questions about our services. You can call us, send a message via email, or visit our clinic directly. We are pleased to serve you and look forward to seeing you soon."
@@ -286,7 +275,6 @@
     "gender": "Gender",
     "country": "Country",
     "home": "Home",
-    "highlights": "Highlights",
     "tips": "General Tips",
     "addTip": "Add Tip",
     "manage": "Manage",
@@ -299,6 +287,8 @@
     "appointments": "Appointments",
     "addAppointment": "Add Appointment",
     "upcomingAppointments": "Upcoming Appointments",
+    "noUpcomingAppointments": "No Appointments",
+    "bookNow": "Add Appointment",
     "showMore": "Show More",
     "admin": "Admin",
     "noAccess": "You do not have access to this page. Please contact the administrator for access permission.",
@@ -341,7 +331,8 @@
     "bnaDeleted": "Post successfully deleted",
     "ok": "OK",
     "success": "Published successfully",
-    "editSuccess": "Edited successfully"
+    "editSuccess": "Edited successfully",
+    "seeMore": "See More"
   },
   "changePasswordPage": {
     "currentPassword": "Current Password",

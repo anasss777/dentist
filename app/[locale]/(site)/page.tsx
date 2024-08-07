@@ -5,7 +5,6 @@ import BeforeAndAfter from "@/components/BeforeAndAfter";
 import Faq from "@/components/Faq";
 import Contact from "@/components/Home/Contact";
 import Hero from "@/components/Home/Hero";
-import Highlights from "@/components/Home/Highlights";
 import Intro from "@/components/Home/Intro";
 import Services from "@/components/Home/Services";
 import Testimonial from "@/components/Testimonial";
@@ -13,6 +12,7 @@ import Tips from "@/components/Tips";
 import { deleteDocIfDatePassed } from "@/utils/appointment";
 import { useEffect } from "react";
 import { Appointment } from "@/types/appointment";
+import CallToAction from "@/components/Home/CallToAction";
 
 export default function Home() {
   useEffect(() => {
@@ -42,8 +42,8 @@ export default function Home() {
       <Hero />
       <Intro />
       <Services />
-      <Highlights />
       <BeforeAndAfter />
+      <CallToAction />
       <Tips />
       <Testimonial />
       <Faq />

@@ -76,6 +76,10 @@ const Overview = () => {
           setTimeout(() => {
             setIsloading(false);
           }, 2000);
+        } else {
+          setTimeout(() => {
+            setIsloading(false);
+          }, 2000);
         }
       });
 
@@ -290,19 +294,6 @@ const Overview = () => {
           </p>
         </Link>
 
-        {/* Highlights */}
-        <Link
-          href="/admin/highlights"
-          locale={locale}
-          className={`flex flex-row justify-start items-center bg-primary/70 rounded-xl shadow-lg p-5 text-2xl gap-3 btn h-auto lg:w-auto
-          hover:bg-primary/50 w-full`}
-        >
-          <span>{svgVideoBig}</span>
-          <p className={`flex flex-col justify-between items-start`}>
-            {t("highlights")}
-          </p>
-        </Link>
-
         {/* Manage */}
         <Link
           href="/admin/manage"
@@ -350,7 +341,7 @@ const Overview = () => {
               {t("noUpcomingAppointments")}
             </p>
             <Link
-              href="/appointments"
+              href="/admin/appointments/add"
               locale={locale}
               className={`btn bg-primary shadow-Primary text-base md:text-lg hover:px-6`}
             >
