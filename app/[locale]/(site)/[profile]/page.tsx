@@ -41,7 +41,8 @@ const ProfilePage = ({ params }: Props) => {
 
   const dialNumber = countries.find(
     (item) =>
-      item.countryAr === profile?.country || item.countryEn === profile?.country
+      item.countryAr === profile?.country ||
+      item.countryEn === profile?.country,
   );
 
   const sortedAppointments = bookedDates.sort((a, b) => {
@@ -103,7 +104,7 @@ const ProfilePage = ({ params }: Props) => {
           (error) => {
             console.log("Error getting profile:", error);
             setLoading(false);
-          }
+          },
         );
 
         // Cleanup function to unsubscribe from the snapshot listener
@@ -135,6 +136,7 @@ const ProfilePage = ({ params }: Props) => {
           {/* <ProfileImage profile={profile} /> */}
           {profile.profileImage ? (
             <Image
+              unoptimized
               src={profile.profileImage}
               alt={""}
               height={500}

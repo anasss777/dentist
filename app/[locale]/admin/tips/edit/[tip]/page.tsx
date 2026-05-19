@@ -117,7 +117,7 @@ const Page = ({ params }: Props) => {
           (error) => {
             console.log("Error getting profile:", error);
             setLoading(false);
-          }
+          },
         );
 
         // Cleanup function to unsubscribe from the snapshot listener
@@ -252,6 +252,7 @@ const Page = ({ params }: Props) => {
               </div>
 
               <Image
+                unoptimized
                 src={imageUrl?.length > 0 ? imageUrl : "/images/testing.png"}
                 alt="Tip image"
                 height={1000}
@@ -344,6 +345,7 @@ const Page = ({ params }: Props) => {
               </div>
 
               <Image
+                unoptimized
                 src={imageUrl?.length > 0 ? imageUrl : "/images/testing.png"}
                 alt="Tip image"
                 height={1000}

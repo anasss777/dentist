@@ -44,6 +44,7 @@ const TipsRow = ({ tip }: Props) => {
         className={`text-gray-400 text-center py-4 flex items-center justify-center`}
       >
         <Image
+          unoptimized
           src={tip.tipImage || "/images/testing.png"}
           alt={isArabic ? tip.tipTitleAr : tip.tipTitleEn}
           height={500}

@@ -56,16 +56,16 @@ const Page = ({ params }: Props) => {
     const fetchComments = async () => {
       const commentsIds = tip?.comments?.map((comment) => comment.id);
       const commentsRefs = commentsIds?.map((commentId) =>
-        firebase.firestore().doc(`comments/${commentId}`)
+        firebase.firestore().doc(`comments/${commentId}`),
       );
 
       if (commentsRefs) {
         const commentSnaps = await Promise.all(
-          commentsRefs.map(async (ref) => await ref.get())
+          commentsRefs.map(async (ref) => await ref.get()),
         );
 
         const commentsData: Comment[] = commentSnaps?.map(
-          (commentSnap) => ({ ...commentSnap.data() } as Comment)
+          (commentSnap) => ({ ...commentSnap.data() }) as Comment,
         );
 
         setComments(commentsData);
@@ -120,6 +120,7 @@ const Page = ({ params }: Props) => {
 
         {/* Tip image */}
         <Image
+          unoptimized
           src={tip.tipImage ? tip.tipImage : "/images/testing.png"}
           alt="testing"
           height={1000}

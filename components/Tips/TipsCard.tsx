@@ -27,6 +27,7 @@ const TipsCard = ({ title, imageSrc, tipId, createdAt }: Props) => {
       {/* Tip Image */}
       <div className={`w-full h-40 min-[500px]:h-60 md:h-40 p-2`}>
         <Image
+          unoptimized
           src={imageSrc ? imageSrc : "/images/testing.png"}
           alt={title}
           height={600}

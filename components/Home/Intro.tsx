@@ -21,6 +21,7 @@ const Intro = () => {
       </div>
 
       <Image
+        unoptimized
         src="/images/intro-img.png"
         alt="Intro section image"
         width={500}

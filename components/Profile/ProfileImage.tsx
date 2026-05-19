@@ -60,6 +60,7 @@ const ProfileImage = ({ profile }: Props) => {
         <div>
           {profile.profileImage ? (
             <Image
+              unoptimized
               onClick={() => setIsEditOpen(!isEditOpen)}
               src={profile.profileImage}
               alt={profile.name}
@@ -116,6 +117,7 @@ const ProfileImage = ({ profile }: Props) => {
 
           {imageUrl ? (
             <Image
+              unoptimized
               src={imageUrl}
               alt={profile.name}
               width={1000}

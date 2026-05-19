@@ -16,6 +16,7 @@ const BnACard = ({ beforeImage, afterImage }: Props) => {
     >
       <p className={`py-1 text-primary text-xl font-medium`}>{t("before")}</p>
       <Image
+        unoptimized
         src={beforeImage}
         alt={t("before")}
         height={600}
@@ -23,6 +24,7 @@ const BnACard = ({ beforeImage, afterImage }: Props) => {
         className={`object-cover h-40 w-72 rounded-t-3xl border-y border-primary`}
       />
       <Image
+        unoptimized
         src={afterImage}
         alt={t("after")}
         height={600}

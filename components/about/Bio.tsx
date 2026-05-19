@@ -17,6 +17,7 @@ const Bio = () => {
         className={`flex flex-col lg:flex-row justify-center items-center gap-10`}
       >
         <Image
+          unoptimized
           src="/images/about-img.png"
           alt="Bio Image"
           height={1000}

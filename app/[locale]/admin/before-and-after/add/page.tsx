@@ -66,7 +66,7 @@ const AddBeforeAndAfter = () => {
           (error) => {
             console.log("Error getting profile:", error);
             setLoading(false);
-          }
+          },
         );
 
         // Cleanup function to unsubscribe from the snapshot listener
@@ -129,6 +129,7 @@ const AddBeforeAndAfter = () => {
             </p>
             {beforeImage ? (
               <Image
+                unoptimized
                 src={beforeImage}
                 alt={t("before")}
                 height={600}
@@ -140,6 +141,7 @@ const AddBeforeAndAfter = () => {
             )}
             {afterImage ? (
               <Image
+                unoptimized
                 src={afterImage}
                 alt={t("after")}
                 height={600}

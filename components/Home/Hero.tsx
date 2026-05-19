@@ -18,6 +18,7 @@ const Hero = () => {
         className={`bg-gradient-to-tr from-primary via-transparent to-primary p-0.5 rounded-full`}
       >
         <Image
+          unoptimized
           src="/images/hero-img.png"
           alt="Hero section image"
           width={500}

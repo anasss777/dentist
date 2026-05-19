@@ -78,7 +78,7 @@ const AddTip = () => {
           (error) => {
             console.log("Error getting profile:", error);
             setLoading(false);
-          }
+          },
         );
 
         // Cleanup function to unsubscribe from the snapshot listener
@@ -197,6 +197,7 @@ const AddTip = () => {
 
               {imageUrl ? (
                 <Image
+                  unoptimized
                   src={imageUrl}
                   alt="Post image"
                   height={1000}
@@ -294,6 +295,7 @@ const AddTip = () => {
 
               {imageUrl ? (
                 <Image
+                  unoptimized
                   src={imageUrl}
                   alt="Post image"
                   height={1000}

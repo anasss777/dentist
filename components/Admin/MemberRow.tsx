@@ -36,6 +36,7 @@ const MemberRow = ({ member }: Props) => {
         )}
         {member.profileImage ? (
           <Image
+            unoptimized
             src={member.profileImage}
             alt={member.name}
             height={500}

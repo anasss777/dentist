@@ -101,7 +101,7 @@ const EditBeforeAndAfter = ({ params }: Props) => {
           (error) => {
             console.log("Error getting profile:", error);
             setLoading(false);
-          }
+          },
         );
 
         // Cleanup function to unsubscribe from the snapshot listener
@@ -178,6 +178,7 @@ const EditBeforeAndAfter = ({ params }: Props) => {
             </p>
             {beforeImage ? (
               <Image
+                unoptimized
                 src={beforeImage}
                 alt={t("before")}
                 height={600}
@@ -189,6 +190,7 @@ const EditBeforeAndAfter = ({ params }: Props) => {
             )}
             {afterImage ? (
               <Image
+                unoptimized
                 src={afterImage}
                 alt={t("after")}
                 height={600}
@@ -235,7 +237,7 @@ const EditBeforeAndAfter = ({ params }: Props) => {
               bna.beforeImage,
               bna.afterImage,
               beforeImageFile,
-              afterImageFile
+              afterImageFile,
             )
               .then(() => {
                 toast.success(t("editSuccess"));

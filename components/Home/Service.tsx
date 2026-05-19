@@ -15,6 +15,7 @@ const Service = ({ icon, title, description }: Props) => (
         bg-primary bg-opacity-20 duration-300 group-hover:rotate-45"
       ></span>
       <Image
+        unoptimized
         src={icon}
         alt={title}
         height={150}

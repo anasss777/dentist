@@ -55,7 +55,7 @@ const Account = () => {
         },
         (error) => {
           console.log("Error getting profile:", error);
-        }
+        },
       );
 
       // Cleanup function to unsubscribe from the snapshot listener
@@ -110,6 +110,7 @@ const Account = () => {
       >
         {user && userData.profileImage ? (
           <Image
+            unoptimized
             src={userData.profileImage}
             alt="Poster profile image"
             height={400}
